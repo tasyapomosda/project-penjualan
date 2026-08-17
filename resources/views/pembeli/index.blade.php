@@ -598,11 +598,25 @@
                                     </div>
                                 </template>
                             </div>
-                            <div class="flex justify-between items-center mb-3 pt-2 border-t border-slate-800">
-                                <span class="text-[10px] text-slate-500 font-bold uppercase"
-                                      x-text="saved.metode === 'hutang' ? '📝 Kasbon' : saved.metode === 'qris' ? '📱 QRIS' : '💵 Cash'"></span>
-                                <span class="text-sm font-black text-white"
-                                      x-text="formatRupiah(saved.total)"></span>
+                            <div class="flex justify-between items-center mb-3 pt-2 border-t border-slate-800 gap-2">
+                                <div class="custom-dropdown flex-1" x-data="{ open: false }">
+                                    <button type="button" @click="open = !open" @click.outside="open = false"
+                                        class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-[10px] text-white font-bold flex items-center justify-between cursor-pointer hover:border-slate-500 transition-all">
+                                        <span x-text="saved.metode === 'hutang' ? '📝 Kasbon' : saved.metode === 'qris' ? '📱 QRIS' : '💵 Cash'"></span>
+                                        <svg :class="open ? 'rotate-180' : ''" class="transition-transform w-3 h-3 text-slate-400 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                    </button>
+                                    <div x-show="open" x-cloak class="custom-dropdown-menu">
+                                        <div class="custom-dropdown-option" :class="saved.metode === 'cash' ? 'selected' : ''"
+                                            @click="saved.metode = 'cash'; open = false; _persistSaved()">💵 Cash</div>
+                                        <div class="custom-dropdown-option" :class="saved.metode === 'hutang' ? 'selected' : ''"
+                                            @click="saved.metode = 'hutang'; open = false; _persistSaved()">📝 Kasbon (Hutang)</div>
+                                        <div class="custom-dropdown-option" :class="saved.metode === 'qris' ? 'selected' : ''"
+                                            @click="saved.metode = 'qris'; open = false; _persistSaved()">📱 QRIS</div>
+                                    </div>
+                                </div>
+                                <span class="text-sm font-black text-white flex-shrink-0"
+                                    x-text="formatRupiah(saved.total)"></span>
+                            </div>
                             </div>
                             <div class="flex gap-2">
                                 <button @click="muatKeranjang(idx)"
@@ -943,6 +957,7 @@
 
                 activeTab: 'current',
                 savedCarts: [],
+                loadedFromSaved: null,
                 toast: { show: false, message: '', type: 'success', _timer: null },
                 confirmLoad: { show: false, idx: null },
 
@@ -1063,6 +1078,7 @@
                     this.cart = {};
                     this.namaPembeli = '';
                     this.metodeBayar = 'cash';
+                    this.loadedFromSaved = null;
                     this.calculate();
                     this.activeTab = 'saved';
                     this.$nextTick(() => lucide.createIcons());
@@ -1089,6 +1105,7 @@
                     this.cart = JSON.parse(JSON.stringify(saved.cart));
                     this.namaPembeli = saved.nama;
                     this.metodeBayar = saved.metode;
+                    this.loaodedFromSaved = idx;
                     this.calculate();
                     this.activeTab = 'current';
                     this.showToast('Keranjang "' + saved.nama + '" dimuat 🛒');
@@ -1176,6 +1193,11 @@
                         });
 
                         if (response.ok) {
+                            if (this.loadedFromSaved !== null) {
+                                this.savedCarts.splice(this.loadedFromSaved, 1);
+                                this._persistSaved();
+                                this.loadedFromSaved = null;
+                            }
                             this.showModal = true;
                             this.drawerOpen = false;
                         } else {
