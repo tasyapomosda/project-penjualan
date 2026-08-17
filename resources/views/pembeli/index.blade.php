@@ -567,7 +567,16 @@
         </div>
 
         {{-- TAB: Keranjang Disimpan --}}
-        <template x-for="(saved, idx) in savedCarts" :key="idx">
+        <div x-show="activeTab === 'saved'" class="flex flex-col flex-1 overflow-hidden px-6 pb-6">
+            <div class="flex-1 overflow-y-auto custom-scrollbar pr-1">
+                <template x-if="savedCarts.length === 0">
+                    <div class="flex flex-col items-center justify-center h-40 opacity-20 italic">
+                        <i data-lucide="bookmark" class="w-12 h-12 mb-2"></i>
+                        <p class="text-xs">Belum ada keranjang disimpan</p>
+                    </div>
+                </template>
+                <div class="space-y-3 mt-1">
+                    <template x-for="(saved, idx) in savedCarts" :key="idx">
                         <div class="bg-slate-900/60 rounded-2xl p-4 border border-slate-700 hover:border-purple-500/40 transition-all">
                             <div class="flex justify-between items-start mb-3">
                                 <div>
@@ -620,6 +629,10 @@
                             </div>
                         </div>
                     </template>
+                </div>
+            </div>
+        </div>
+    </aside>
 
     {{-- MOBILE — FLOATING CART BUTTON --}}
     <div class="md:hidden float-cart" @click="drawerOpen = true">
@@ -802,11 +815,24 @@
                                     </div>
                                 </template>
                             </div>
-                            <div class="flex justify-between items-center mb-3 pt-2 border-t border-slate-800">
-                                <span class="text-[10px] text-slate-500 font-bold uppercase"
-                                      x-text="saved.metode === 'hutang' ? '📝 Kasbon' : saved.metode === 'qris' ? '📱 QRIS' : '💵 Cash'"></span>
-                                <span class="text-sm font-black text-white"
-                                      x-text="formatRupiah(saved.total)"></span>
+                            <div class="flex justify-between items-center mb-3 pt-2 border-t border-slate-800 gap-2">
+                                <div class="custom-dropdown flex-1" x-data="{ open: false }">
+                                    <button type="button" @click="open = !open" @click.outside="open = false"
+                                        class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-[10px] text-white font-bold flex items-center justify-between cursor-pointer hover:border-slate-500 transition-all">
+                                        <span x-text="saved.metode === 'hutang' ? '📝 Kasbon' : saved.metode === 'qris' ? '📱 QRIS' : '💵 Cash'"></span>
+                                        <svg :class="open ? 'rotate-180' : ''" class="transition-transform w-3 h-3 text-slate-400 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                    </button>
+                                    <div x-show="open" x-cloak class="custom-dropdown-menu">
+                                        <div class="custom-dropdown-option" :class="saved.metode === 'cash' ? 'selected' : ''"
+                                            @click="saved.metode = 'cash'; open = false; _persistSaved()">💵 Cash</div>
+                                        <div class="custom-dropdown-option" :class="saved.metode === 'hutang' ? 'selected' : ''"
+                                            @click="saved.metode = 'hutang'; open = false; _persistSaved()">📝 Kasbon (Hutang)</div>
+                                        <div class="custom-dropdown-option" :class="saved.metode === 'qris' ? 'selected' : ''"
+                                            @click="saved.metode = 'qris'; open = false; _persistSaved()">📱 QRIS</div>
+                                    </div>
+                                </div>
+                                <span class="text-sm font-black text-white flex-shrink-0"
+                                    x-text="formatRupiah(saved.total)"></span>
                             </div>
                             <div class="flex gap-2">
                                 <button @click="muatKeranjang(idx)"
