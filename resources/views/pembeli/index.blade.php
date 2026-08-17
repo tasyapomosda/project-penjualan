@@ -567,16 +567,7 @@
         </div>
 
         {{-- TAB: Keranjang Disimpan --}}
-        <div x-show="activeTab === 'saved'" class="flex flex-col flex-1 overflow-hidden px-6 pb-6">
-            <div class="flex-1 overflow-y-auto custom-scrollbar pr-1">
-                <template x-if="savedCarts.length === 0">
-                    <div class="flex flex-col items-center justify-center h-40 opacity-20 italic">
-                        <i data-lucide="bookmark" class="w-12 h-12 mb-2"></i>
-                        <p class="text-xs">Belum ada keranjang disimpan</p>
-                    </div>
-                </template>
-                <div class="space-y-3 mt-1">
-                    <template x-for="(saved, idx) in savedCarts" :key="idx">
+        <template x-for="(saved, idx) in savedCarts" :key="idx">
                         <div class="bg-slate-900/60 rounded-2xl p-4 border border-slate-700 hover:border-purple-500/40 transition-all">
                             <div class="flex justify-between items-start mb-3">
                                 <div>
@@ -617,7 +608,6 @@
                                 <span class="text-sm font-black text-white flex-shrink-0"
                                     x-text="formatRupiah(saved.total)"></span>
                             </div>
-                            </div>
                             <div class="flex gap-2">
                                 <button @click="muatKeranjang(idx)"
                                         class="flex-1 bg-slate-700 hover:bg-slate-600 text-white text-[10px] font-bold py-2 rounded-xl transition-all flex items-center justify-center gap-1">
@@ -630,10 +620,6 @@
                             </div>
                         </div>
                     </template>
-                </div>
-            </div>
-        </div>
-    </aside>
 
     {{-- MOBILE — FLOATING CART BUTTON --}}
     <div class="md:hidden float-cart" @click="drawerOpen = true">
@@ -1105,7 +1091,7 @@
                     this.cart = JSON.parse(JSON.stringify(saved.cart));
                     this.namaPembeli = saved.nama;
                     this.metodeBayar = saved.metode;
-                    this.loaodedFromSaved = idx;
+                    this.loadedFromSaved = idx;
                     this.calculate();
                     this.activeTab = 'current';
                     this.showToast('Keranjang "' + saved.nama + '" dimuat 🛒');
