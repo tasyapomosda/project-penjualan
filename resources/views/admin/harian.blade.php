@@ -20,7 +20,7 @@
 
     <main class="flex-1 ml-72 flex flex-col p-12 overflow-hidden relative">
         
-        <div class="flex justify-between items-start mb-10">
+        <div class="flex justify-between items-start mb-6">
             <div>
                 <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
                     Riwayat Transaksi 🗓️
@@ -36,11 +36,11 @@
             </form>
         </div>
 
-        <div class="grid grid-cols-3 gap-6 mb-10">
+        <div class="grid grid-cols-3 gap-4 mb-6">
             {{-- Cash Masuk --}}
-            <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center gap-6 group hover:shadow-md transition-all">
-                <div class="bg-emerald-50 text-emerald-500 p-5 rounded-[1.5rem] group-hover:scale-110 transition-transform">
-                    <i data-lucide="wallet" class="w-8 h-8"></i>
+            <div class="bg-white p-4 rounded-[1.75rem] border border-slate-100 shadow-sm flex items-center gap-4 group hover:shadow-md transition-all">
+                <div class="bg-emerald-50 text-emerald-500 p-3 rounded-[1.1rem] group-hover:scale-110 transition-transform">
+                    <i data-lucide="wallet" class="w-6 h-6"></i>
                 </div>
                 <div>
                     <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Cash Masuk</p>
@@ -49,9 +49,9 @@
             </div>
 
             {{-- QRIS Masuk --}}
-            <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center gap-6 group hover:shadow-md transition-all">
-                <div class="bg-violet-50 text-violet-500 p-5 rounded-[1.5rem] group-hover:scale-110 transition-transform">
-                    <i data-lucide="qr-code" class="w-8 h-8"></i>
+            <div class="bg-white p-4 rounded-[1.75rem] border border-slate-100 shadow-sm flex items-center gap-4 group hover:shadow-md transition-all">
+                <div class="bg-violet-50 text-violet-500 p-3 rounded-[1.1rem] group-hover:scale-110 transition-transform">
+                    <i data-lucide="qr-code" class="w-6 h-6"></i>
                 </div>
                 <div>
                     <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">QRIS Masuk</p>
@@ -60,9 +60,9 @@
             </div>
 
             {{-- Total Pendapatan --}}
-            <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center gap-6 group hover:shadow-md transition-all text-left">
-                <div class="bg-sky-50 text-sky-500 p-5 rounded-[1.5rem] group-hover:scale-110 transition-transform">
-                    <i data-lucide="trending-up" class="w-8 h-8"></i>
+            <div class="bg-white p-4 rounded-[1.75rem] border border-slate-100 shadow-sm flex items-center gap-4 group hover:shadow-md transition-all text-left">
+                <div class="bg-sky-50 text-sky-500 p-3 rounded-[1.1rem] group-hover:scale-110 transition-transform">
+                    <i data-lucide="trending-up" class="w-6 h-6"></i>
                 </div>
                 <div>
                     <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Total Pendapatan</p>
@@ -76,25 +76,25 @@
                 <table class="w-full text-left border-collapse table-fixed">
                     <thead class="sticky top-0 bg-white/90 backdrop-blur-md z-10">
                         <tr class="text-slate-400 font-bold text-xs uppercase tracking-[0.15em] border-b border-slate-50">
-                            <th class="px-10 py-7 w-32">Waktu</th>
-                            <th class="px-10 py-7">Pembeli</th>
-                            <th class="px-10 py-7">Produk</th>
-                            <th class="px-10 py-7 text-center w-28">Qty</th>
-                            <th class="px-10 py-7 text-right w-48">Total</th>
-                            <th class="px-10 py-7 text-center w-36">Status</th>
-                            <th class="px-10 py-7 text-center w-28">Aksi</th>
+                            <th class="px-10 py-4 w-32">Waktu</th>
+                            <th class="px-10 py-4">Pembeli</th>
+                            <th class="px-10 py-4">Produk</th>
+                            <th class="px-10 py-4 text-center w-28">Qty</th>
+                            <th class="px-10 py-4 text-right w-48">Total</th>
+                            <th class="px-10 py-4 text-center w-36">Status</th>
+                            <th class="px-10 py-4 text-center w-28">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-50">
                         @forelse($transactions as $t)
                         <tr class="hover:bg-slate-50/50 transition-all text-sm group">
-                            <td class="px-10 py-6 font-medium text-slate-400 tabular-nums italic">
+                            <td class="px-10 py-4 font-medium text-slate-400 tabular-nums italic">
                                 {{ $t->created_at->format('H:i') }}
                             </td>
-                            <td class="px-10 py-6">
+                            <td class="px-10 py-4">
                                 <span class="font-bold text-slate-800 text-base">{{ $t->nama_pembeli }}</span>
                             </td>
-                            <td class="px-10 py-6">
+                            <td class="px-10 py-4">
                                 <div class="flex items-center gap-2 flex-wrap">
                                     {{-- ⚠️ Fallback: cek nama_produk_manual dulu, baru product relation --}}
                                     <span class="font-semibold text-slate-500 italic">
@@ -111,18 +111,18 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="px-10 py-6 text-center">
+                            <td class="px-10 py-4 text-center">
                                 <span class="bg-slate-100 px-3 py-1 rounded-xl font-bold text-slate-600 text-xs">{{ $t->jumlah }}</span>
                             </td>
-                            <td class="px-10 py-6 font-black text-slate-900 text-right text-base tabular-nums">
+                            <td class="px-10 py-4 font-black text-slate-900 text-right text-base tabular-nums">
                                 Rp{{ number_format($t->total_harga, 0, ',', '.') }}
                             </td>
-                            <td class="px-10 py-6 text-center">
+                            <td class="px-10 py-4 text-center">
                                 <span class="bg-emerald-50 text-emerald-500 px-5 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border border-emerald-100">
                                     BERHASIL
                                 </span>
                             </td>
-                            <td class="px-10 py-6 text-center">
+                            <td class="px-10 py-4 text-center">
                                 <form action="{{ route('admin.delete-transaksi', $t->id) }}" method="POST" onsubmit="return confirm('Hapus data ini?')">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="p-2 text-slate-300 hover:text-rose-500 transition-all transform hover:scale-110">
