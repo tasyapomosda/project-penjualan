@@ -384,7 +384,7 @@
                 {{-- Search --}}
                 <div class="bg-slate-800/50 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl sm:rounded-2xl border border-slate-700 shadow-inner flex items-center gap-2 sm:gap-3 flex-1 min-w-0 sm:w-64 focus-within:border-purple-500/50 transition-all">
                     <i data-lucide="search" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-500 flex-shrink-0"></i>
-                    <input type="text" x-model="search" placeholder="Cari jajan..."
+                    <input type="text" x-model="search" placeholder="Cari"
                         class="bg-transparent text-xs sm:text-sm text-white focus:outline-none w-full min-w-0 placeholder:text-slate-600 font-medium">
                 </div>
 
@@ -393,7 +393,7 @@
                      class="bg-slate-800/50 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl sm:rounded-2xl border shadow-inner flex items-center gap-2 sm:gap-3 flex-1 min-w-0 sm:w-48 transition-all">
                     <i data-lucide="user" class="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0"
                        :class="!namaPembeli ? 'text-red-400/60' : 'text-slate-500'"></i>
-                    <input type="text" x-model="namaPembeli" placeholder="Nama kamu..."
+                    <input type="text" x-model="namaPembeli" placeholder="isi nama pembeli"
                         @input="onNamaChange()"
                         class="bg-transparent text-xs sm:text-sm text-white focus:outline-none w-full min-w-0 placeholder:text-slate-600 font-bold"
                         :class="!namaPembeli ? 'placeholder:text-red-400/40' : ''">
