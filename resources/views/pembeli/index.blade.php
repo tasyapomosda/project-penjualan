@@ -366,7 +366,7 @@
                     flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
             <div class="flex items-center gap-3">
                 <div>
-                    <h1 class="text-2xl font-black text-white tracking-tight">Showcase Snack 🍪</h1>
+                    <h1 class="text-2xl font-black text-white tracking-tight">Showcase Snack</h1>
                     <p class="text-slate-500 text-[10px] uppercase tracking-[0.2em] italic">Campus Self-Service System</p>
                 </div>
                 {{-- ── THEME TOGGLE ── --}}
