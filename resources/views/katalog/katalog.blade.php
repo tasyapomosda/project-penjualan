@@ -199,7 +199,7 @@
                      class="bg-slate-800/50 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl sm:rounded-2xl border shadow-inner flex items-center gap-2 flex-1 min-w-0 sm:w-48 transition-all">
                     <i data-lucide="user" class="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0"
                        :class="!namaPembeli ? 'text-red-400/60' : 'text-slate-500'"></i>
-                    <input type="text" x-model="namaPembeli" placeholder="Nama kamu..."
+                    <input type="text" x-model="namaPembeli" placeholder="Isi nama pembeli"
                         @input="onNamaChange()"
                         class="bg-transparent text-xs sm:text-sm text-white focus:outline-none w-full placeholder:text-slate-600 font-bold"
                         :class="!namaPembeli ? 'placeholder:text-red-400/40' : ''">
@@ -262,7 +262,7 @@
                 @empty
                 <div class="col-span-full py-20 text-center opacity-20">
                     <i data-lucide="info" class="w-12 h-12 mx-auto mb-2"></i>
-                    <p class="font-bold uppercase tracking-widest text-xs">Ups, Jajanan Kosong</p>
+                    <p class="font-bold uppercase tracking-widest text-xs">Jajan tidak tersedia</p>
                 </div>
                 @endforelse
             </div>
@@ -279,7 +279,7 @@
                 <div class="bg-purple-600/20 p-2 rounded-xl border border-purple-500/30 text-purple-400">
                     <i data-lucide="shopping-cart" class="w-5 h-5"></i>
                 </div>
-                <h2 class="text-lg font-bold text-white">Pesanan Kamu</h2>
+                <h2 class="text-lg font-bold text-white">Halaman Transaksi</h2>
             </div>
             @include('catalog.partials.cart-tabs')
         </div>
@@ -401,14 +401,14 @@
             <div class="w-20 h-20 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-8">
                 <i data-lucide="check" class="w-12 h-12 stroke-[4]"></i>
             </div>
-            <h3 class="text-2xl font-black text-slate-900 mb-2">Berhasil! 🎉</h3>
+            <h3 class="text-2xl font-black text-slate-900 mb-2">Berhasil!</h3>
             <p class="text-slate-500 font-medium text-sm leading-relaxed mb-10">
                 Terima kasih <span class="font-bold text-indigo-600" x-text="namaPembeli"></span>!
-                Transaksi kamu sudah tercatat. Silakan ambil jajannya ya!
+                Transaksi kamu sudah tercatat
             </p>
             <button @click="resetPage()"
                 class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-[1.5rem] font-bold text-sm transition-all active:scale-95 shadow-xl uppercase tracking-widest">
-                Oke, Siap!
+                Done!
             </button>
         </div>
     </div>
