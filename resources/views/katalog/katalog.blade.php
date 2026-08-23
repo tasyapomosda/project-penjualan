@@ -283,7 +283,7 @@
             </div>
             @include('catalog.partials.cart-tabs')
         </div>
-        @include('catalog.partials.cart-panel', ['context' => 'desktop'])
+        @include('katalog.partials.panel-keranjang', ['context' => 'desktop'])
     </aside>
 
     {{-- ════════════════════════════════════
@@ -334,7 +334,7 @@
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
-            @include('catalog.partials.cart-tabs')
+            @include('katalog.partials.tab-keranjang')
         </div>
 
         @include('catalog.partials.cart-panel', ['context' => 'mobile'])
