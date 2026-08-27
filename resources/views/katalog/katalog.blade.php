@@ -408,7 +408,7 @@
             </p>
             <button @click="resetPage()"
                 class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-[1.5rem] font-bold text-sm transition-all active:scale-95 shadow-xl uppercase tracking-widest">
-                Done!
+                Done
             </button>
         </div>
     </div>
