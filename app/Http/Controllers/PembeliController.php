@@ -14,7 +14,7 @@ class PembeliController extends Controller
     public function index()
     {
         $products = Product::where('stok_sekarang', '>', 0)->get();
-        return view('pembeli.index', compact('products'));
+        return view('katalog.katalog', compact('products'));
     }
 
     // Proses pembelian dari halaman pembeli

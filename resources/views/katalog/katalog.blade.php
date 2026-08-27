@@ -281,7 +281,7 @@
                 </div>
                 <h2 class="text-lg font-bold text-white">Halaman Transaksi</h2>
             </div>
-            @include('catalog.partials.cart-tabs')
+            @include('katalog.partials.tab-keranjang')
         </div>
         @include('katalog.partials.panel-keranjang', ['context' => 'desktop'])
     </aside>
@@ -337,7 +337,7 @@
             @include('katalog.partials.tab-keranjang')
         </div>
 
-        @include('catalog.partials.cart-panel', ['context' => 'mobile'])
+        @include('katalog.partials.panel-keranjang', ['context' => 'mobile'])
     </div>
 
     {{-- ════════════════════════════════════
