@@ -57,21 +57,20 @@
         <div class="custom-dropdown" x-data="{ open: false }">
             <button type="button" @click="open = !open" @click.outside="open = false"
                 class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-xs text-white font-bold flex items-center justify-between cursor-pointer hover:border-slate-500 transition-all">
-                <span x-text="metodeBayar === 'hutang' ? 'Kasbon' : metodeBayar === 'qris' ? 'QRIS' : 'Cash'"></span>
+                <span x-text="metodeBayar === 'qris' ? 'QRIS' : 'Cash'"></span>
                 <svg :class="open ? 'rotate-180' : ''" class="transition-transform w-3.5 h-3.5 text-slate-400 flex-shrink-0"
-                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div x-show="open" x-cloak class="custom-dropdown-menu">
-                <div class="custom-dropdown-option" :class="metodeBayar === 'cash'   ? 'selected' : ''" @click="metodeBayar = 'cash';   open = false">💵 Cash</div>
-                <div class="custom-dropdown-option" :class="metodeBayar === 'hutang' ? 'selected' : ''" @click="metodeBayar = 'hutang'; open = false">📝 Kasbon</div>
-                <div class="custom-dropdown-option" :class="metodeBayar === 'qris'   ? 'selected' : ''" @click="metodeBayar = 'qris';   open = false">📱 QRIS</div>
-            </div>
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div x-show="open" x-cloak class="custom-dropdown-menu">
+                    <div class="custom-dropdown-option" :class="metodeBayar === 'cash' ? 'selected' : ''" @click="metodeBayar = 'cash'; open = false"> Cash</div>
+                    <div class="custom-dropdown-option" :class="metodeBayar === 'qris' ? 'selected' : ''" @click="metodeBayar = 'qris'; open = false"> QRIS</div>
+                </div>
         </div>
 
         {{-- Warning nama --}}
         <p x-show="showNameWarning" x-cloak
            class="text-red-400 text-[10px] font-bold text-center tracking-widest uppercase">
-            ⚠️ Isi nama kamu dulu ya!
+            ⚠️ Isi nama pembeli terlebih dahulu!
         </p>
 
         {{-- Tombol aksi --}}
@@ -142,15 +141,14 @@
                         <div class="custom-dropdown flex-1" x-data="{ open: false }">
                             <button type="button" @click="open = !open" @click.outside="open = false"
                                 class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-[10px] text-white font-bold flex items-center justify-between cursor-pointer hover:border-slate-500 transition-all">
-                                <span x-text="saved.metode === 'hutang' ? 'Kasbon' : saved.metode === 'qris' ? 'QRIS' : 'Cash'"></span>
+                                <span x-text="saved.metode === 'qris' ? 'QRIS' : 'Cash'"></span>
                                 <svg :class="open ? 'rotate-180' : ''" class="transition-transform w-3 h-3 text-slate-400"
-                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-                            </button>
-                            <div x-show="open" x-cloak class="custom-dropdown-menu">
-                                <div class="custom-dropdown-option" :class="saved.metode === 'cash'   ? 'selected' : ''" @click="saved.metode = 'cash';   open = false; _persistSaved()">💵 Cash</div>
-                                <div class="custom-dropdown-option" :class="saved.metode === 'hutang' ? 'selected' : ''" @click="saved.metode = 'hutang'; open = false; _persistSaved()">📝 Kasbon</div>
-                                <div class="custom-dropdown-option" :class="saved.metode === 'qris'   ? 'selected' : ''" @click="saved.metode = 'qris';   open = false; _persistSaved()">📱 QRIS</div>
-                            </div>
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                                </button>
+                                <div x-show="open" x-cloak class="custom-dropdown-menu">
+                                    <div class="custom-dropdown-option" :class="saved.metode === 'cash' ? 'selected' : ''" @click="saved.metode = 'cash'; open = false; _persistSaved()"> Cash</div>
+                                    <div class="custom-dropdown-option" :class="saved.metode === 'qris' ? 'selected' : ''" @click="saved.metode = 'qris'; open = false; _persistSaved()"> QRIS</div>
+                                </div>
                         </div>
                         <span class="text-sm font-black text-white flex-shrink-0"
                               x-text="formatRupiah(saved.total)"></span>

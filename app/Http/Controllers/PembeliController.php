@@ -22,7 +22,7 @@ class PembeliController extends Controller
     {
         $request->validate([
             'nama_pembeli'       => 'required|string',
-            'metode_bayar'       => 'required|string',
+            'metode_bayar'       => 'required|string|in:cash,qris',
             'items'              => 'required|array|min:1',
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.jumlah'     => 'required|integer|min:1',
