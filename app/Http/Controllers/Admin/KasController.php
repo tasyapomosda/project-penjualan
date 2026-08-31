@@ -11,16 +11,16 @@ class KasController extends Controller
     // Halaman rekap pendapatan & kas — route: admin.pendapatan
     public function index()
     {
-        $records      = FinanceRecord::latest()->get();
-        $total_debit  = $records->sum('debit');
-        $total_kredit = $records->sum('kredit');
-        $saldo_akhir  = $total_debit - $total_kredit;
+        $kasManual   = FinanceRecord::latest('tanggal')->get();
+        $totalDebit  = FinanceRecord::where('tipe', 'debit')->sum('nominal');
+        $totalKredit = FinanceRecord::where('tipe', 'kredit')->sum('nominal');
+        $saldoBersih = $totalDebit - $totalKredit;
 
         return view('admin.pendapatan', compact(
-            'records',
-            'saldo_akhir',
-            'total_debit',
-            'total_kredit'
+            'kasManual',
+            'totalDebit',
+            'totalKredit',
+            'saldoBersih'
         ));
     }
 
@@ -28,18 +28,17 @@ class KasController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'tanggal'         => 'required|date',
-            'jenis_transaksi' => 'required|string',
+            'tanggal'    => 'required|date',
+            'keterangan' => 'required|string',
+            'tipe'       => 'required|in:debit,kredit',
+            'nominal'    => 'required|numeric',
         ]);
 
-        $debit  = str_replace('.', '', $request->debit  ?? 0);
-        $kredit = str_replace('.', '', $request->kredit ?? 0);
-
         FinanceRecord::create([
-            'tanggal'         => $request->tanggal,
-            'jenis_transaksi' => $request->jenis_transaksi,
-            'debit'           => $debit,
-            'kredit'          => $kredit,
+            'tanggal'    => $request->tanggal,
+            'keterangan' => $request->keterangan,
+            'tipe'       => $request->tipe,
+            'nominal'    => $request->nominal,
         ]);
 
         return back()->with('success', 'Catatan kas manual berhasil disimpan!');
@@ -51,10 +50,10 @@ class KasController extends Controller
         $record = FinanceRecord::findOrFail($id);
 
         $record->update([
-            'tanggal'         => $request->tanggal,
-            'jenis_transaksi' => $request->jenis_transaksi,
-            'debit'           => $request->debit  ?? 0,
-            'kredit'          => $request->kredit ?? 0,
+            'tanggal'    => $request->tanggal,
+            'keterangan' => $request->keterangan,
+            'tipe'       => $request->tipe,
+            'nominal'    => $request->nominal,
         ]);
 
         return redirect()->route('admin.pendapatan')
