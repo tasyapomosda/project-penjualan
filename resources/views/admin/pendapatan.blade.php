@@ -69,7 +69,7 @@
             <div class="overflow-y-auto flex-1 custom-scrollbar px-4">
                 <table class="w-full text-left border-collapse">
                     <thead class="sticky top-0 bg-white z-10 shadow-[0_1px_0_0_rgba(0,0,0,0.02)]">
-                        <tr class="text-slate-300 font-bold text-[9px] uppercase tracking-[0.2em]">
+                        <tr class="text-slate-800 font-bold text-[13px] uppercase tracking-[0.2em]">
                             <th class="px-6 py-5 w-48">Hari / Tanggal</th>
                             <th class="px-6 py-5">Keterangan</th>
                             <th class="px-6 py-5 text-right">Nominal</th>

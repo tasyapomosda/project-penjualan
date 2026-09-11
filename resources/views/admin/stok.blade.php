@@ -24,7 +24,7 @@
         <header class="flex justify-between items-end mb-8 flex-shrink-0">
             <div>
                 <h2 class="text-2xl font-extrabold text-slate-800 leading-tight tracking-tight">Manajemen Stok 📦</h2>
-                <p class="text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-1">Update & Pantau ketersediaan jajan</p>
+                <p class="text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-1">Update & Pantau ketersediaan produk</p>
             </div>
             <button onclick="openModal()" class="bg-[#6366f1] hover:bg-indigo-700 text-white px-6 py-3.5 rounded-2xl shadow-lg shadow-indigo-100 flex items-center gap-2 transition-all active:scale-95 text-sm font-bold">
                 <i data-lucide="plus-circle" class="w-5 h-5"></i>
@@ -36,14 +36,14 @@
             <div class="px-10 py-5 border-b border-slate-50 flex justify-between items-center bg-slate-50/10">
                 <div class="flex items-center gap-3">
                     <div class="w-2 h-2 bg-amber-400 rounded-full shadow-[0_0_8px_rgba(251,191,36,0.6)]"></div>
-                    <h4 class="font-bold text-slate-700 text-sm tracking-tight italic uppercase">Daftar Inventaris Jajan</h4>
+                    <h4 class="font-bold text-slate-700 text-sm tracking-tight italic uppercase">Daftar Produk Showcase</h4>
                 </div>
             </div>
 
             <div class="overflow-y-auto flex-1 custom-scrollbar px-4">
                 <table class="w-full text-left border-collapse table-fixed">
-                    <thead class="sticky top-0 bg-white z-10 shadow-[0_1px_0_0_rgba(0,0,0,0.02)]">
-                        <tr class="text-slate-300 font-bold text-[9px] uppercase tracking-[0.2em]">
+                    <thead class="sticky top-0 bg-white z-10 shadow-[0_1px_0_0_rgba(15,23,42,0.06)]">
+                        <tr class="text-slate-800  font-bold text-[12px] uppercase tracking-[0.2em]">
                             <th class="px-6 py-5 w-16 text-center">No</th>
                             <th class="px-6 py-5 w-64">Nama Produk</th>
                             <th class="px-6 py-5 text-right w-40">Harga Satuan</th>
@@ -121,8 +121,8 @@
             <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
             
             <div class="relative bg-white rounded-[3rem] shadow-2xl w-full max-w-md p-10 z-10 transition-all text-left border border-white">
-                <h3 class="text-2xl font-extrabold text-slate-800 mb-1">Tambah Jajan Baru 🥨</h3>
-                <p class="text-xs text-slate-400 font-bold uppercase tracking-widest mb-8 italic">Lengkapi data stok barang koperasi</p>
+                <h3 class="text-2xl font-extrabold text-slate-800 mb-1">Tambah Jajan Baru</h3>
+    
 
                 <form action="{{ route('admin.stok-store') }}" method="POST" class="space-y-6">
                     @csrf

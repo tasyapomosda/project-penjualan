@@ -78,7 +78,15 @@
                 <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
                 <span>Laporan Penjualan</span>
             </a>
-        </nav>
+
+            <p class="text-slate-400 text-[10px] uppercase tracking-widest font-bold px-3 mb-2 mt-6">Akun</p>
+
+            <a href="{{ route('password.edit') }}"
+               class="flex items-center gap-4 px-4 py-4 rounded-2xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50/50 dark:hover:text-white dark:hover:bg-slate-800 transition-all font-semibold">
+                <i data-lucide="key-round" class="w-5 h-5"></i>
+                <span>Ganti Password</span>
+            </a>
+                </nav>
 
         {{-- Logout — nempel mt-auto, tanpa border pemisah, sama seperti sidebar.blade --}}
         <form action="{{ route('logout') }}" method="POST" class="mt-auto">

@@ -9,19 +9,21 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('debts', function (Blueprint $table) {
-            $table->string('barang')->nullable()->after('product_id');
-            // atau jika sudah ada tapi NOT NULL, ubah jadi nullable:
-            // $table->string('barang')->nullable()->change();
+            if (!Schema::hasColumn('debts', 'barang')) {
+                $table->string('barang')->nullable();
+            }
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::table('debts', function (Blueprint $table) {
-            $table->dropColumn('barang');
+            if (Schema::hasColumn('debts', 'barang')) {
+                $table->dropColumn('barang');
+            }
         });
     }
 };

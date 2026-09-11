@@ -87,7 +87,7 @@
             <div class="overflow-y-auto flex-1 custom-scrollbar">
                 <table class="w-full text-left border-collapse table-fixed">
                     <thead class="sticky top-0 bg-white/90 backdrop-blur-md z-10">
-                        <tr class="text-slate-400 font-bold text-xs uppercase tracking-[0.15em] border-b border-slate-50">
+                        <tr class="text-slate-800 font-bold text-xs uppercase tracking-[0.15em] border-b border-slate-50">
                             <th class="px-10 py-4 w-32">Waktu</th>
                             <th class="px-10 py-4">Pembeli</th>
                             <th class="px-10 py-4">Produk</th>
