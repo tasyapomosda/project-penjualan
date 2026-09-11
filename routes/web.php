@@ -40,6 +40,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 */
 Route::middleware(['auth'])->group(function () {
 
+    // Ganti password
+    Route::get('/admin/ganti-password', [AuthController::class, 'editPassword'])->name('password.edit');
+    Route::put('/admin/ganti-password', [AuthController::class, 'updatePassword'])->name('password.update');
+
     // ── Dashboard ──────────────────────────────────────────────────────────
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
 

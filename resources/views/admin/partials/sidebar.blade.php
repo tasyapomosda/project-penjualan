@@ -51,6 +51,13 @@
             <span>Laporan Penjualan</span>
         </a>
 
+        <p class="text-slate-400 text-[10px] uppercase tracking-widest font-bold px-3 mb-2 mt-6">Akun</p>
+
+        <a href="{{ route('password.edit') }}" class="flex items-center gap-4 px-4 py-4 rounded-2xl transition-all {{ $isActive('password.edit') }}">
+            <i data-lucide="key-round" class="w-5 h-5"></i>
+            <span>Ganti Password</span>
+        </a>
+
     </nav>
 
     <form action="{{ route('logout') }}" method="POST" class="mt-auto">
