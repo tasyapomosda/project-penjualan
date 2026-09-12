@@ -181,6 +181,16 @@
             background-color: #334155 !important;
             color: #ffffff !important;
         }
+
+        /* ── FIX tambahan: khusus di dalam .bottom-drawer (tampilan mobile),
+           aturan "body.theme-light .bottom-drawer .text-white" di atas
+           punya spesifisitas sama dengan fix gradient tapi posisinya lebih
+           bawah, sehingga selalu menang dan menimpa balik jadi gelap.
+           Selector ini sengaja dibuat lebih spesifik (menyertakan konteks
+           .bottom-drawer) supaya pasti menang di mobile juga. ── */
+        body.theme-light .bottom-drawer .bg-gradient-to-r.text-white {
+            color: #ffffff !important;
+        }
     </style>
 </head>
 <body class="bg-[#0f172a] text-slate-200 h-screen overflow-hidden flex flex-col md:flex-row theme-dark"
