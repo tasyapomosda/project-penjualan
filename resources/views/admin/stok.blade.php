@@ -153,7 +153,7 @@
                             <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3 ml-1">Harga Jual (Rp)</label>
                             <input type="text" id="inputHargaDisplay" required
                                 oninput="formatRupiah(this, 'inputHargaValue')"
-                                class="...">
+                                class="w-full px-5 py-4 rounded-[1.5rem] bg-slate-50 border border-slate-100 focus:bg-white focus:border-indigo-300 outline-none transition-all text-sm font-bold">
                             <input type="hidden" name="harga" id="inputHargaValue">
                         </div>
                         <div>
