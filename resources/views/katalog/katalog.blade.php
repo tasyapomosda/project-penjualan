@@ -126,6 +126,13 @@
         body.theme-light .tab-inactive { background: #f1f5f9; color: #94a3b8; }
         body.theme-light .tab-inactive:hover { color: #1e293b; }
 
+        /* ── FIX: tombol dengan latar gradient harus tetap teks putih
+           meskipun tema terang aktif (Konfirmasi Pembelian,
+           Selesaikan Pembelian, Bayar) ── */
+        body.theme-light .bg-gradient-to-r.text-white {
+            color: #ffffff !important;
+        }
+
         /* Sidebar light */
         body.theme-light aside.hidden.md\:flex { background-color: #ffffff !important; border-color: #e2e8f0 !important; }
         body.theme-light aside .bg-purple-600\/20 { background-color: #ede9fe !important; border-color: rgba(124,58,237,0.3) !important; }
@@ -162,6 +169,18 @@
         body.theme-light .bottom-drawer h2.text-white { color: #1e293b !important; }
         body.theme-light .bottom-drawer .tab-inactive { background: #f1f5f9; color: #94a3b8; }
         body.theme-light main .flex-1.overflow-y-auto { background-color: #f1f5f9; }
+
+        /* ── FIX: tombol Draft & Edit (bg-slate-700) di dalam aside/bottom-drawer
+           sebelumnya ikut ter-konversi jadi latar terang oleh aturan di atas,
+           sehingga teks putihnya tidak lagi kontras (kadang malah tertimpa
+           balik jadi teks gelap juga, tergantung urutan CSS). Selector ini
+           lebih spesifik (menyertakan konteks aside/.bottom-drawer) supaya
+           pasti menang, dan mengunci latar tetap gelap + teks tetap putih. ── */
+        body.theme-light aside .bg-slate-700.text-white,
+        body.theme-light .bottom-drawer .bg-slate-700.text-white {
+            background-color: #334155 !important;
+            color: #ffffff !important;
+        }
     </style>
 </head>
 <body class="bg-[#0f172a] text-slate-200 h-screen overflow-hidden flex flex-col md:flex-row theme-dark"
