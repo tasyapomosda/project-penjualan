@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Transaction;
 use App\Models\Debt;
 use App\Models\Product;
-use App\Models\KasManual;
+use App\Models\FinanceRecord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -86,11 +86,11 @@ class LaporanController extends Controller
 
         // ─── Rekap Kas Manual (Debit / Kredit / Saldo Bersih) ──────────────────
         // Card terpisah, tidak memengaruhi perhitungan Pendapatan Bersih di atas.
-        $totalDebitManual = KasManual::whereBetween(DB::raw('DATE(tanggal)'), [$dari, $sampai])
+        $totalDebitManual = FinanceRecord::whereBetween(DB::raw('DATE(tanggal)'), [$dari, $sampai])
             ->where('tipe', 'debit')
             ->sum('nominal');
 
-        $totalKreditManual = KasManual::whereBetween(DB::raw('DATE(tanggal)'), [$dari, $sampai])
+        $totalKreditManual = FinanceRecord::whereBetween(DB::raw('DATE(tanggal)'), [$dari, $sampai])
             ->where('tipe', 'kredit')
             ->sum('nominal');
 

@@ -89,8 +89,8 @@
             </form>
 
             <div class="mt-8 text-center">
-                <a href="/admin/dashboard" class="text-slate-400 text-[10px] uppercase tracking-wider hover:text-slate-600 transition-colors">
-                    ← Kembali ke Dashboard
+                <a href="{{ route('admin.dashboard') }}" class="text-indigo-500 text-xs font-semibold hover:underline">
+                    Kembali ke Dashboard
                 </a>
             </div>
         </div>

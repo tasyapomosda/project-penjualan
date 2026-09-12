@@ -28,6 +28,15 @@ class HutangController extends Controller
             'nominal'      => 'required|numeric|min:0',
         ]);
 
+        // Simpan sebagai catatan hutang
+        Debt::create([
+            'nama_pembeli' => $request->nama_pembeli,
+            'barang'       => $request->barang,
+            'qty'          => $request->qty,
+            'nominal'      => $request->nominal,
+            'is_paid'      => false,
+        ]);
+
         //Catat juga sebagai transaksi, supaya masuk ke riwayat/dashboard
 
         Transaction::create([

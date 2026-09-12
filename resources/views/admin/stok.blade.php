@@ -21,6 +21,22 @@
 
     <main class="flex-1 ml-72 flex flex-col p-6 md:p-10 min-w-0 overflow-hidden">
         
+        @if($errors->any())
+        <div class="bg-rose-50 border border-rose-200 text-rose-600 px-6 py-4 rounded-2xl mb-4 text-sm font-bold">
+            <ul class="list-disc list-inside">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
+        @if(session('success'))
+        <div class="bg-emerald-50 border border-emerald-200 text-emerald-600 px-6 py-4 rounded-2xl mb-4 text-sm font-bold">
+            {{ session('success') }}
+        </div>
+        @endif
+
         <header class="flex justify-between items-end mb-8 flex-shrink-0">
             <div>
                 <h2 class="text-2xl font-extrabold text-slate-800 leading-tight tracking-tight">Manajemen Stok 📦</h2>
@@ -135,9 +151,10 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3 ml-1">Harga Jual (Rp)</label>
-                            <input type="text" name="harga" id="inputHarga" placeholder="0" required 
-                                   onkeyup="formatRupiah(this)"
-                                   class="w-full px-5 py-4 rounded-[1.5rem] bg-slate-50 border border-slate-100 focus:bg-white focus:border-indigo-300 outline-none transition-all text-sm font-bold">
+                            <input type="text" id="inputHargaDisplay" required
+                                oninput="formatRupiah(this, 'inputHargaValue')"
+                                class="...">
+                            <input type="hidden" name="harga" id="inputHargaValue">
                         </div>
                         <div>
                             <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3 ml-1">Stok Awal</label>
@@ -175,9 +192,10 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3 ml-1">Harga Jual (Rp)</label>
-                            <input type="text" name="harga" id="editHarga" required
-                                   onkeyup="formatRupiah(this)"
-                                   class="w-full px-5 py-4 rounded-[1.5rem] bg-slate-50 border border-slate-100 focus:bg-white focus:border-indigo-300 outline-none transition-all text-sm font-bold">
+                            <input type="text" id="editHargaDisplay" required
+                                oninput="formatRupiah(this, 'editHargaValue')"
+                                class="w-full px-5 py-4 rounded-[1.5rem] bg-slate-50 border border-slate-100 focus:bg-white focus:border-indigo-300 outline-none transition-all text-sm font-bold">
+                            <input type="hidden" name="harga" id="editHargaValue">
                         </div>
                         <div>
                             <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3 ml-1">Stok Sekarang</label>
@@ -214,13 +232,16 @@
         function openEditModal(id, namaMerk, harga, stok) {
             document.getElementById('formEdit').action = stokUpdateBaseUrl + '/' + id;
             document.getElementById('editNamaMerk').value = namaMerk;
-            document.getElementById('editHarga').value = new Intl.NumberFormat('id-ID').format(harga);
+
+            document.getElementById('editHargaValue').value = harga;
+            document.getElementById('editHargaDisplay').value = new Intl.NumberFormat('id-ID').format(harga);
+
             document.getElementById('editStok').value = stok;
 
             document.getElementById('modalEdit').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
-
+   
         function closeEditModal() {
             document.getElementById('modalEdit').classList.add('hidden');
             document.body.style.overflow = 'auto';
@@ -240,10 +261,11 @@
         });
 
         // Fungsi Format Rupiah Real-time
-        function formatRupiah(input) {
-            let value = input.value.replace(/[^0-9]/g, "");
-            if (value) {
-                input.value = new Intl.NumberFormat('id-ID').format(value);
+        function formatRupiah(input, targetHiddenId) {
+            let raw = input.value.replace(/[^0-9]/g, "");
+            if (raw) {
+                input.value = new Intl.NumberFormat('id-ID').format(raw);
+                document.getElementById(targetHiddenId).value = raw;
             } else {
                 input.value = "";
             }

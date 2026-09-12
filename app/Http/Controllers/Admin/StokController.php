@@ -22,18 +22,18 @@ class StokController extends Controller
             'name_merk'     => 'required|string|max:255',
             'kategori'      => 'nullable|string|max:100',
             'harga'         => 'required|numeric|min:0',
-            'stok_sekarang' => 'required|integer|min:0',
+            'stok_awal' => 'required|integer|min:0',
         ]);
 
         Product::create([
             'name_merk'     => $request->name_merk,
             'kategori'      => $request->kategori,
             'harga'         => $request->harga,
-            'stok_awal'     => $request->stok_sekarang,
-            'stok_sekarang' => $request->stok_sekarang,
+            'stok_awal'     => $request->stok_awal,
+            'stok_sekarang' => $request->stok_awal,
         ]);
 
-        return back()->with('success', 'Produk berhasil ditambah!');
+        return back()->with('success', 'Produk berhasil ditambahkan');
     }
 
     // Perbarui data produk — route: admin.stok-update
