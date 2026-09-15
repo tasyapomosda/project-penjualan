@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 class HutangController extends Controller
 {
     // Halaman rekap hutang — route: admin.hutang
+
+
     public function index()
     {
         $groupedDebts     = Debt::where('is_paid', false)->get()->groupBy('nama_pembeli');
@@ -19,6 +21,8 @@ class HutangController extends Controller
     }
 
     // Tambah hutang manual — route: admin.hutang-store
+
+
     public function store(Request $request)
     {
         $request->validate([
@@ -39,6 +43,7 @@ class HutangController extends Controller
 
         //Catat juga sebagai transaksi, supaya masuk ke riwayat/dashboard
 
+        
         Transaction::create([
             'product_id'          => null,
             'nama_pembeli'        => $request->nama_pembeli,
