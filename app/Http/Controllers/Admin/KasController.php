@@ -11,10 +11,28 @@ class KasController extends Controller
     // Halaman rekap pendapatan & kas — route: admin.pendapatan
     public function index()
     {
-        $kasManual   = FinanceRecord::latest('tanggal')->get();
         $totalDebit  = FinanceRecord::where('tipe', 'debit')->sum('nominal');
         $totalKredit = FinanceRecord::where('tipe', 'kredit')->sum('nominal');
         $saldoBersih = $totalDebit - $totalKredit;
+
+        // Hitung akumulasi saldo berjalan (running balance) berdasarkan urutan kronologis
+        $allRecords = FinanceRecord::orderBy('tanggal', 'asc')->orderBy('id', 'asc')->get(['id', 'tipe', 'nominal']);
+        $saldoMap = [];
+        $running = 0;
+        foreach ($allRecords as $rec) {
+            if ($rec->tipe === 'debit') {
+                $running += (float) $rec->nominal;
+            } else {
+                $running -= (float) $rec->nominal;
+            }
+            $saldoMap[$rec->id] = $running;
+        }
+
+        // Paginasi 15 baris per halaman (terbaru di atas)
+        $kasManual = FinanceRecord::orderBy('tanggal', 'desc')->orderBy('id', 'desc')->paginate(15);
+        foreach ($kasManual as $item) {
+            $item->saldo_berjalan = $saldoMap[$item->id] ?? 0;
+        }
 
         return view('admin.pendapatan', compact(
             'kasManual',
