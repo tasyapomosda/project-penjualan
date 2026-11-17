@@ -19,91 +19,91 @@
  
     @include('admin.partials.sidebar')
  
-    <main id="mainContent" class="flex-1 ml-72 flex flex-col p-4 sm:p-6 md:p-10 min-w-0 overflow-hidden">
+    <main id="mainContent" class="flex-1 ml-72 flex flex-col p-3.5 sm:p-6 md:p-10 min-w-0 overflow-hidden">
         
-        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8 flex-shrink-0">
+        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 sm:gap-4 mb-5 sm:mb-8 flex-shrink-0">
             <div>
-                <h2 class="text-2xl font-extrabold text-slate-800 leading-tight tracking-tight">Buku Kas (Manual) 💰</h2>
-                <p class="text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-1">Input saldo masuk/keluar secara manual</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800 leading-tight tracking-tight">Buku Kas (Manual) 💰</h2>
+                <p class="text-[10px] sm:text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-0.5 sm:mt-1">Input saldo masuk/keluar secara manual</p>
             </div>
-            <button onclick="openModal()" class="bg-[#6366f1] hover:bg-indigo-700 text-white px-6 py-3.5 rounded-2xl shadow-lg shadow-indigo-100 flex items-center gap-2 transition-all active:scale-95 text-sm font-bold">
-                <i data-lucide="plus-circle" class="w-5 h-5"></i>
+            <button onclick="openModal()" class="bg-[#6366f1] hover:bg-indigo-700 text-white px-5 sm:px-6 py-3 sm:py-3.5 rounded-2xl shadow-lg shadow-indigo-100 flex items-center justify-center gap-2 transition-all active:scale-95 text-xs sm:text-sm font-bold w-full sm:w-auto">
+                <i data-lucide="plus-circle" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                 INPUT KAS BARU
             </button>
         </header>
  
         {{-- Summary Cards --}}
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-5 group transition-all hover:border-emerald-200">
-                <div class="bg-emerald-50 text-emerald-500 p-4 rounded-2xl transition-transform group-hover:scale-110"><i data-lucide="trending-up" class="w-6 h-6"></i></div>
-                <div class="min-w-0">
-                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Total Debit (+)</p>
-                    <h3 class="text-lg font-extrabold text-emerald-600 truncate">Rp{{ number_format($totalDebit ?? 0, 0, ',', '.') }}</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 mb-5 sm:mb-8">
+            <div class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-4 sm:gap-5 group transition-all hover:border-emerald-200">
+                <div class="bg-emerald-50 text-emerald-500 p-3 sm:p-4 rounded-xl sm:rounded-2xl transition-transform group-hover:scale-110 shrink-0"><i data-lucide="trending-up" class="w-5 h-5 sm:w-6 sm:h-6"></i></div>
+                <div class="min-w-0 flex-1">
+                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-0.5 sm:mb-1">Total Debit (+)</p>
+                    <h3 class="text-base sm:text-lg font-extrabold text-emerald-600 truncate">Rp{{ number_format($totalDebit ?? 0, 0, ',', '.') }}</h3>
                 </div>
             </div>
-            <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-5 group transition-all hover:border-rose-200">
-                <div class="bg-rose-50 text-rose-500 p-4 rounded-2xl transition-transform group-hover:scale-110"><i data-lucide="trending-down" class="w-6 h-6"></i></div>
-                <div class="min-w-0">
-                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Total Kredit (-)</p>
-                    <h3 class="text-lg font-extrabold text-rose-600 truncate">Rp{{ number_format($totalKredit ?? 0, 0, ',', '.') }}</h3>
+            <div class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-4 sm:gap-5 group transition-all hover:border-rose-200">
+                <div class="bg-rose-50 text-rose-500 p-3 sm:p-4 rounded-xl sm:rounded-2xl transition-transform group-hover:scale-110 shrink-0"><i data-lucide="trending-down" class="w-5 h-5 sm:w-6 sm:h-6"></i></div>
+                <div class="min-w-0 flex-1">
+                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-0.5 sm:mb-1">Total Kredit (-)</p>
+                    <h3 class="text-base sm:text-lg font-extrabold text-rose-600 truncate">Rp{{ number_format($totalKredit ?? 0, 0, ',', '.') }}</h3>
                 </div>
             </div>
-            <div class="bg-indigo-600 p-6 rounded-[2rem] shadow-xl shadow-indigo-100 flex items-center gap-5 group transition-all transform hover:scale-[1.02]">
-                <div class="bg-white/20 text-white p-4 rounded-2xl"><i data-lucide="wallet" class="w-6 h-6"></i></div>
-                <div class="min-w-0">
-                    <p class="text-white/60 text-[10px] font-bold uppercase tracking-widest mb-1">Saldo Bersih</p>
-                    <h3 class="text-lg font-extrabold text-white truncate">Rp{{ number_format($saldoBersih ?? 0, 0, ',', '.') }}</h3>
+            <div class="bg-indigo-600 p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] shadow-xl shadow-indigo-100 flex items-center gap-4 sm:gap-5 group transition-all transform hover:scale-[1.02]">
+                <div class="bg-white/20 text-white p-3 sm:p-4 rounded-xl sm:rounded-2xl shrink-0"><i data-lucide="wallet" class="w-5 h-5 sm:w-6 sm:h-6"></i></div>
+                <div class="min-w-0 flex-1">
+                    <p class="text-white/60 text-[10px] font-bold uppercase tracking-widest mb-0.5 sm:mb-1">Saldo Bersih</p>
+                    <h3 class="text-base sm:text-lg font-extrabold text-white truncate">Rp{{ number_format($saldoBersih ?? 0, 0, ',', '.') }}</h3>
                 </div>
             </div>
         </div>
  
         {{-- Tabel Riwayat --}}
-        <div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm flex-1 flex flex-col overflow-hidden">
-            <div class="px-10 py-5 border-b border-slate-50 flex justify-between items-center bg-slate-50/10">
-                <div class="flex items-center gap-3">
+        <div class="bg-white rounded-2xl sm:rounded-[2.5rem] border border-slate-100 shadow-sm flex-1 flex flex-col overflow-hidden min-h-[300px]">
+            <div class="px-4 py-3.5 sm:px-10 sm:py-5 border-b border-slate-50 flex justify-between items-center bg-slate-50/10">
+                <div class="flex items-center gap-2.5 sm:gap-3">
                     <div class="w-2 h-2 bg-indigo-400 rounded-full shadow-[0_0_8px_rgba(99,102,241,0.6)]"></div>
-                    <h4 class="font-bold text-slate-700 text-sm tracking-tight italic uppercase">Riwayat Kas Manual</h4>
+                    <h4 class="font-bold text-slate-700 text-xs sm:text-sm tracking-tight italic uppercase">Riwayat Kas Manual</h4>
                 </div>
             </div>
  
-            <div class="overflow-y-auto overflow-x-auto flex-1 custom-scrollbar px-4">
-                <table class="w-full text-left border-collapse min-w-[650px]">
+            <div class="overflow-y-auto overflow-x-auto flex-1 custom-scrollbar px-2 sm:px-4">
+                <table class="w-full text-left border-collapse min-w-[580px] sm:min-w-[650px]">
                     <thead class="sticky top-0 bg-white z-10 shadow-[0_1px_0_0_rgba(0,0,0,0.02)]">
-                        <tr class="text-slate-800 font-bold text-[13px] uppercase tracking-[0.2em]">
-                            <th class="px-6 py-5 w-48">Hari / Tanggal</th>
-                            <th class="px-6 py-5">Keterangan</th>
-                            <th class="px-6 py-5 text-right">Nominal</th>
-                            <th class="px-6 py-5 text-center w-24">Aksi</th>
+                        <tr class="text-slate-800 font-bold text-[11px] sm:text-[13px] uppercase tracking-[0.15em] sm:tracking-[0.2em]">
+                            <th class="px-3 sm:px-6 py-3.5 sm:py-5 w-36 sm:w-48">Hari / Tanggal</th>
+                            <th class="px-3 sm:px-6 py-3.5 sm:py-5">Keterangan</th>
+                            <th class="px-3 sm:px-6 py-3.5 sm:py-5 text-right w-32 sm:w-44">Nominal</th>
+                            <th class="px-3 sm:px-6 py-3.5 sm:py-5 text-center w-20 sm:w-24">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="text-slate-600 divide-y divide-slate-50">
+                    <tbody class="text-slate-600 divide-y divide-slate-50 text-xs sm:text-sm">
                         @forelse($kasManual as $k)
                         <tr class="hover:bg-slate-50/50 transition-all">
-                            <td class="px-6 py-5 font-bold text-slate-400 tabular-nums text-sm">
+                            <td class="px-3 sm:px-6 py-3.5 sm:py-5 font-bold text-slate-400 tabular-nums text-xs">
                                 {{ \Illuminate\Support\Carbon::parse($k->tanggal)->translatedFormat('l, d M Y') }}
                             </td>
-                            <td class="px-6 py-5">
-                                <p class="font-bold text-slate-700 text-sm">{{ $k->keterangan }}</p>
+                            <td class="px-3 sm:px-6 py-3.5 sm:py-5">
+                                <p class="font-bold text-slate-700 text-xs sm:text-sm">{{ $k->keterangan }}</p>
                                 {{-- Badge tipe --}}
                                 @if($k->tipe == 'debit')
-                                    <span class="inline-flex items-center gap-1 mt-1 text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-lg uppercase tracking-wide">
+                                    <span class="inline-flex items-center gap-1 mt-1 text-[9px] sm:text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-lg uppercase tracking-wide">
                                         <i data-lucide="arrow-up-right" class="w-3 h-3"></i> Pemasukan
                                     </span>
                                 @else
-                                    <span class="inline-flex items-center gap-1 mt-1 text-[10px] font-bold text-rose-500 bg-rose-50 px-2 py-0.5 rounded-lg uppercase tracking-wide">
+                                    <span class="inline-flex items-center gap-1 mt-1 text-[9px] sm:text-[10px] font-bold text-rose-500 bg-rose-50 px-2 py-0.5 rounded-lg uppercase tracking-wide">
                                         <i data-lucide="arrow-down-left" class="w-3 h-3"></i> Pengeluaran
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-6 py-5 text-right tabular-nums">
-                                <span class="font-extrabold text-base {{ $k->tipe == 'debit' ? 'text-emerald-500' : 'text-rose-500' }}">
+                            <td class="px-3 sm:px-6 py-3.5 sm:py-5 text-right tabular-nums">
+                                <span class="font-extrabold text-sm sm:text-base {{ $k->tipe == 'debit' ? 'text-emerald-500' : 'text-rose-500' }}">
                                     {{ $k->tipe == 'debit' ? '+' : '-' }}Rp{{ number_format($k->nominal, 0, ',', '.') }}
                                 </span>
                             </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="flex items-center justify-center gap-2">
+                            <td class="px-3 sm:px-6 py-3.5 sm:py-5 text-center">
+                                <div class="flex items-center justify-center gap-1.5 sm:gap-2">
                                     <button type="button"
-                                            class="btn-edit-kas text-slate-300 hover:text-indigo-500 transition-colors"
+                                            class="btn-edit-kas text-slate-300 hover:text-indigo-500 transition-colors p-1"
                                             data-id="{{ $k->id }}"
                                             data-keterangan="{{ $k->keterangan }}"
                                             data-tipe="{{ $k->tipe }}"
@@ -113,7 +113,7 @@
                                     </button>
                                     <form action="{{ route('admin.kas-delete', $k->id) }}" method="POST" onsubmit="return confirm('Hapus catatan ini?')">
                                         @csrf @method('DELETE')
-                                        <button class="text-slate-300 hover:text-rose-500 transition-colors">
+                                        <button class="text-slate-300 hover:text-rose-500 transition-colors p-1">
                                             <i data-lucide="trash-2" class="w-4 h-4"></i>
                                         </button>
                                     </form>
@@ -138,31 +138,31 @@
  
     {{-- Modal Input Kas --}}
     <div id="modalKas" class="fixed inset-0 z-[60] hidden overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen px-4">
+        <div class="flex items-center justify-center min-h-screen px-4 py-6">
             <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
             
-            <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-md p-10 z-10 relative">
-                <h3 class="text-xl font-extrabold text-slate-800 mb-1">Input Kas Baru 🖋️</h3>
-                <p class="text-xs text-slate-400 font-bold uppercase tracking-widest mb-8">Catat pemasukan atau pengeluaran manual</p>
+            <div class="bg-white rounded-3xl sm:rounded-[2.5rem] shadow-2xl w-full max-w-md p-6 sm:p-10 z-10 relative">
+                <h3 class="text-xl sm:text-2xl font-extrabold text-slate-800 mb-1">Input Kas Baru 🖋️</h3>
+                <p class="text-[10px] sm:text-xs text-slate-400 font-bold uppercase tracking-widest mb-6 sm:mb-8">Catat pemasukan atau pengeluaran manual</p>
  
-                <form action="{{ route('admin.kas-store') }}" method="POST" class="space-y-6">
+                <form action="{{ route('admin.kas-store') }}" method="POST" class="space-y-4 sm:space-y-6">
                     @csrf
 
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Tanggal Transaksi</label>
                         <input type="date" name="tanggal" value="{{ now()->format('Y-m-d') }}" required
-                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all text-sm font-bold">
+                               class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all text-xs sm:text-sm font-bold">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Keterangan</label>
                         <input type="text" name="keterangan" placeholder="Contoh: Beli Token Listrik" required 
-                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all text-sm font-bold">
+                               class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all text-xs sm:text-sm font-bold">
                     </div>
  
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Tipe Transaksi</label>
-                        <select name="tipe" required class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 outline-none transition-all text-sm font-bold appearance-none">
+                        <select name="tipe" required class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 outline-none transition-all text-xs sm:text-sm font-bold appearance-none">
                             <option value="debit">Pemasukan (Debit +)</option>
                             <option value="kredit">Pengeluaran (Kredit -)</option>
                         </select>
@@ -171,19 +171,19 @@
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Nominal (Rp)</label>
                         <div class="relative">
-                            <span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">Rp</span>
+                            <span class="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs sm:text-sm">Rp</span>
                             <input type="text" id="nominalDisplay"
                                    placeholder="0"
                                    inputmode="numeric"
-                                   class="w-full pl-12 pr-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all text-sm font-bold"
+                                   class="w-full pl-10 sm:pl-12 pr-4 sm:pr-5 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all text-xs sm:text-sm font-bold"
                                    oninput="formatNominal(this, 'nominalValue')">
                             <input type="hidden" name="nominal" id="nominalValue">
                         </div>
                     </div>
  
-                    <div class="flex gap-3 pt-4">
-                        <button type="button" onclick="closeModal()" class="flex-1 px-6 py-4 rounded-2xl text-slate-400 font-bold text-sm hover:bg-slate-50 transition-all">BATAL</button>
-                        <button type="submit" class="flex-[2] bg-indigo-600 text-white px-6 py-4 rounded-2xl font-bold text-sm shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-95">SIMPAN CATATAN</button>
+                    <div class="flex gap-2.5 sm:gap-3 pt-3 sm:pt-4">
+                        <button type="button" onclick="closeModal()" class="flex-1 px-4 sm:px-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-slate-400 font-bold text-xs sm:text-sm hover:bg-slate-50 transition-all uppercase tracking-widest">BATAL</button>
+                        <button type="submit" class="flex-[2] bg-indigo-600 text-white px-4 sm:px-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-95 uppercase tracking-widest">SIMPAN</button>
                     </div>
                 </form>
             </div>
@@ -192,32 +192,32 @@
 
     {{-- Modal Edit Kas --}}
     <div id="modalEditKas" class="fixed inset-0 z-[60] hidden overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen px-4">
+        <div class="flex items-center justify-center min-h-screen px-4 py-6">
             <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity" onclick="closeEditModal()"></div>
 
-            <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-md p-10 z-10 relative">
-                <h3 class="text-xl font-extrabold text-slate-800 mb-1">Edit Catatan Kas ✏️</h3>
-                <p class="text-xs text-slate-400 font-bold uppercase tracking-widest mb-8">Perbarui data pemasukan/pengeluaran</p>
+            <div class="bg-white rounded-3xl sm:rounded-[2.5rem] shadow-2xl w-full max-w-md p-6 sm:p-10 z-10 relative">
+                <h3 class="text-xl sm:text-2xl font-extrabold text-slate-800 mb-1">Edit Catatan Kas ✏️</h3>
+                <p class="text-[10px] sm:text-xs text-slate-400 font-bold uppercase tracking-widest mb-6 sm:mb-8">Perbarui data pemasukan/pengeluaran</p>
 
-                <form id="formEditKas" action="" method="POST" class="space-y-6">
+                <form id="formEditKas" action="" method="POST" class="space-y-4 sm:space-y-6">
                     @csrf
                     @method('PUT')
 
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Tanggal Transaksi</label>
                         <input type="date" name="tanggal" id="editTanggal" required
-                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all text-sm font-bold">
+                               class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all text-xs sm:text-sm font-bold">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Keterangan</label>
                         <input type="text" name="keterangan" id="editKeterangan" required
-                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all text-sm font-bold">
+                               class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all text-xs sm:text-sm font-bold">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Tipe Transaksi</label>
-                        <select name="tipe" id="editTipe" required class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 outline-none transition-all text-sm font-bold appearance-none">
+                        <select name="tipe" id="editTipe" required class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 outline-none transition-all text-xs sm:text-sm font-bold appearance-none">
                             <option value="debit">Pemasukan (Debit +)</option>
                             <option value="kredit">Pengeluaran (Kredit -)</option>
                         </select>
@@ -226,23 +226,24 @@
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Nominal (Rp)</label>
                         <div class="relative">
-                            <span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">Rp</span>
+                            <span class="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs sm:text-sm">Rp</span>
                             <input type="text" id="editNominalDisplay"
                                    placeholder="0"
                                    inputmode="numeric"
-                                   class="w-full pl-12 pr-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all text-sm font-bold"
+                                   class="w-full pl-10 sm:pl-12 pr-4 sm:pr-5 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all text-xs sm:text-sm font-bold"
                                    oninput="formatNominal(this, 'editNominalValue')">
                             <input type="hidden" name="nominal" id="editNominalValue">
                         </div>
                     </div>
 
-                    <div class="flex gap-3 pt-4">
-                        <button type="button" onclick="closeEditModal()" class="flex-1 px-6 py-4 rounded-2xl text-slate-400 font-bold text-sm hover:bg-slate-50 transition-all">BATAL</button>
-                        <button type="submit" class="flex-[2] bg-indigo-600 text-white px-6 py-4 rounded-2xl font-bold text-sm shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-95">SIMPAN PERUBAHAN</button>
+                    <div class="flex gap-2.5 sm:gap-3 pt-3 sm:pt-4">
+                        <button type="button" onclick="closeEditModal()" class="flex-1 px-4 sm:px-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-slate-400 font-bold text-xs sm:text-sm hover:bg-slate-50 transition-all uppercase tracking-widest">BATAL</button>
+                        <button type="submit" class="flex-[2] bg-indigo-600 text-white px-4 sm:px-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-95 uppercase tracking-widest">SIMPAN</button>
                     </div>
                 </form>
             </div>
         </div>
+    </div>
     </div>
  
     <script>

@@ -36,44 +36,44 @@
         {{-- ── Header: Judul kiri, Toggle Tema + Filter Periode + Export PDF kanan ── --}}
         <div class="flex items-start justify-between gap-4 mb-6 flex-wrap">
             <div>
-                <h2 class="text-2xl font-black text-slate-800 dark:text-white">Laporan Penjualan 📊</h2>
+                <h2 class="text-xl sm:text-2xl font-black text-slate-800 dark:text-white">Laporan Penjualan 📊</h2>
                 <p class="text-slate-400 dark:text-slate-500 text-xs mt-1">
                     Periode: <span class="text-indigo-600 dark:text-purple-400 font-bold">{{ $dari }}</span>
                     s/d <span class="text-indigo-600 dark:text-purple-400 font-bold">{{ $sampai }}</span>
                 </p>
             </div>
 
-            <div class="flex items-end gap-3 flex-wrap">
+            <div class="flex items-stretch sm:items-end gap-2.5 sm:gap-3 flex-wrap w-full sm:w-auto">
 
                 {{-- Toggle Tema Gelap/Terang --}}
                 <button type="button" onclick="toggleTheme()"
-                    class="flex items-center justify-center w-[38px] h-[38px] rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
+                    class="flex items-center justify-center w-[38px] h-[38px] rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all shrink-0"
                     title="Ganti tema">
                     <i data-lucide="sun" class="w-4 h-4 hidden dark:inline"></i>
                     <i data-lucide="moon" class="w-4 h-4 inline dark:hidden"></i>
                 </button>
 
-                <form method="GET" action="{{ route('admin.laporan') }}" class="flex items-end gap-2">
-                    <div>
+                <form method="GET" action="{{ route('admin.laporan') }}" class="flex items-end gap-2 flex-1 sm:flex-initial flex-wrap sm:flex-nowrap">
+                    <div class="flex-1 sm:flex-initial">
                         <label class="text-slate-400 dark:text-slate-500 text-[10px] font-bold uppercase block mb-1">Dari</label>
                         <input type="date" name="dari" value="{{ $dari }}"
-                            class="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-700 dark:text-white focus:outline-none focus:border-indigo-400 dark:focus:border-purple-500">
+                            class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 sm:px-3 py-2 text-xs text-slate-700 dark:text-white focus:outline-none focus:border-indigo-400 dark:focus:border-purple-500">
                     </div>
-                    <div>
+                    <div class="flex-1 sm:flex-initial">
                         <label class="text-slate-400 dark:text-slate-500 text-[10px] font-bold uppercase block mb-1">Sampai</label>
                         <input type="date" name="sampai" value="{{ $sampai }}"
-                            class="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-700 dark:text-white focus:outline-none focus:border-indigo-400 dark:focus:border-purple-500">
+                            class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 sm:px-3 py-2 text-xs text-slate-700 dark:text-white focus:outline-none focus:border-indigo-400 dark:focus:border-purple-500">
                     </div>
                     <button type="submit"
-                        class="bg-indigo-600 dark:bg-purple-600 hover:bg-indigo-700 dark:hover:bg-purple-700 text-white px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all h-[38px]">
-                        Terapkan
+                        class="bg-indigo-600 dark:bg-purple-600 hover:bg-indigo-700 dark:hover:bg-purple-700 text-white px-3 sm:px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all h-[38px] active:scale-95">
+                        Filter
                     </button>
                 </form>
 
                 <a href="{{ route('admin.laporan.pdf', ['dari' => $dari, 'sampai' => $sampai]) }}"
-                   class="flex items-center gap-2 bg-rose-50 dark:bg-red-600/20 hover:bg-rose-100 dark:hover:bg-red-600/40 border border-rose-200 dark:border-red-500/30 text-rose-500 dark:text-red-400 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all h-[38px]">
+                   class="flex items-center justify-center gap-1.5 sm:gap-2 bg-rose-50 dark:bg-red-600/20 hover:bg-rose-100 dark:hover:bg-red-600/40 border border-rose-200 dark:border-red-500/30 text-rose-500 dark:text-red-400 px-3 sm:px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all h-[38px] active:scale-95">
                     <i data-lucide="file-down" class="w-4 h-4"></i>
-                    Export PDF
+                    <span>Export</span>
                 </a>
             </div>
         </div>

@@ -67,45 +67,45 @@
 
     </div>
 
-    <main id="mainContent" class="flex-1 ml-72 flex flex-col p-4 sm:p-6 md:p-10 min-w-0 overflow-hidden">
+    <main id="mainContent" class="flex-1 ml-72 flex flex-col p-3.5 sm:p-6 md:p-10 min-w-0 overflow-hidden">
 
         {{-- Header --}}
-        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8 flex-shrink-0">
+        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 sm:gap-4 mb-5 sm:mb-8 flex-shrink-0">
             <div>
-                <h2 class="text-2xl font-extrabold text-slate-800 leading-tight tracking-tight">Catatan Hutang 📋</h2>
-                <p class="text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-1">Kelola tagihan anggota koperasi</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800 leading-tight tracking-tight">Catatan Hutang 📋</h2>
+                <p class="text-[10px] sm:text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-0.5 sm:mt-1">Kelola tagihan anggota koperasi</p>
             </div>
             <button onclick="openModal('modalTambah')"
-                    class="bg-rose-500 hover:bg-rose-600 text-white px-6 py-3.5 rounded-2xl shadow-lg shadow-rose-100 flex items-center gap-2 transition-all active:scale-95 text-sm font-bold">
-                <i data-lucide="plus-circle" class="w-5 h-5"></i>
+                    class="bg-rose-500 hover:bg-rose-600 text-white px-5 sm:px-6 py-3 sm:py-3.5 rounded-2xl shadow-lg shadow-rose-100 flex items-center justify-center gap-2 transition-all active:scale-95 text-xs sm:text-sm font-bold w-full sm:w-auto">
+                <i data-lucide="plus-circle" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                 INPUT BARU
             </button>
         </header>
 
         {{-- Summary Bar --}}
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-8 flex-shrink-0">
-            <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-5 group transition-all hover:border-rose-200">
-                <div class="bg-rose-50 text-rose-500 p-4 rounded-2xl transition-transform group-hover:scale-110">
-                    <i data-lucide="alert-circle" class="w-6 h-6"></i>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6 mb-5 sm:mb-8 flex-shrink-0">
+            <div class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-4 sm:gap-5 group transition-all hover:border-rose-200">
+                <div class="bg-rose-50 text-rose-500 p-3 sm:p-4 rounded-xl sm:rounded-2xl transition-transform group-hover:scale-110 shrink-0">
+                    <i data-lucide="alert-circle" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                 </div>
-                <div>
-                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Total Hutang Aktif</p>
-                    <h3 class="text-xl font-extrabold text-rose-600">Rp{{ number_format($totalHutangSemua, 0, ',', '.') }}</h3>
+                <div class="min-w-0 flex-1">
+                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-0.5 sm:mb-1">Total Hutang Aktif</p>
+                    <h3 class="text-lg sm:text-xl font-extrabold text-rose-600 truncate">Rp{{ number_format($totalHutangSemua, 0, ',', '.') }}</h3>
                 </div>
             </div>
-            <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-5 group transition-all hover:border-indigo-200">
-                <div class="bg-indigo-50 text-indigo-500 p-4 rounded-2xl transition-transform group-hover:scale-110">
-                    <i data-lucide="users" class="w-6 h-6"></i>
+            <div class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-4 sm:gap-5 group transition-all hover:border-indigo-200">
+                <div class="bg-indigo-50 text-indigo-500 p-3 sm:p-4 rounded-xl sm:rounded-2xl transition-transform group-hover:scale-110 shrink-0">
+                    <i data-lucide="users" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                 </div>
-                <div>
-                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Anggota Berutang</p>
-                    <h3 class="text-xl font-extrabold text-slate-700">{{ $groupedDebts->count() }} Orang</h3>
+                <div class="min-w-0 flex-1">
+                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-0.5 sm:mb-1">Anggota Berutang</p>
+                    <h3 class="text-lg sm:text-xl font-extrabold text-slate-700 truncate">{{ $groupedDebts->count() }} Orang</h3>
                 </div>
             </div>
         </div>
 
         {{-- Daftar Hutang Per Anggota --}}
-        <div class="flex-1 overflow-y-auto custom-scrollbar space-y-5 pr-1 pb-4">
+        <div class="flex-1 overflow-y-auto custom-scrollbar space-y-4 sm:space-y-5 pr-1 pb-4">
             @forelse($groupedDebts as $nama => $items)
             @php
                 $uid        = 'anggota-' . $loop->index;
@@ -121,28 +121,28 @@
                 $cs = $colorSets[$loop->index % count($colorSets)];
             @endphp
 
-            <div class="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden">
+            <div class="bg-white rounded-2xl sm:rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden">
 
                 {{-- Header Anggota --}}
                 <button onclick="toggleSection('{{ $uid }}')"
-                        class="w-full px-8 py-5 flex justify-between items-center hover:bg-slate-50/60 transition-all text-left group">
-                    <div class="flex items-center gap-5">
-                        <div class="w-12 h-12 {{ $cs[0] }} rounded-2xl flex items-center justify-center font-extrabold text-xl transition-transform group-hover:scale-105">
+                        class="w-full px-4 sm:px-8 py-4 sm:py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 hover:bg-slate-50/60 transition-all text-left group">
+                    <div class="flex items-center gap-3.5 sm:gap-5 min-w-0 flex-1">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 {{ $cs[0] }} rounded-xl sm:rounded-2xl flex items-center justify-center font-extrabold text-lg sm:text-xl shrink-0 transition-transform group-hover:scale-105">
                             {{ $initial }}
                         </div>
-                        <div>
-                            <h4 class="font-extrabold text-base text-slate-800">{{ $nama }}</h4>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
+                        <div class="min-w-0 flex-1">
+                            <h4 class="font-extrabold text-sm sm:text-base text-slate-800 truncate">{{ $nama }}</h4>
+                            <p class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
                                 {{ $items->count() }} item · klik untuk lihat detail
                             </p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-8">
-                        <div class="text-right">
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Total Tagihan</p>
-                            <p class="font-extrabold text-xl text-rose-500">Rp{{ number_format($totalOrang, 0, ',', '.') }}</p>
+                    <div class="flex items-center justify-between sm:justify-end gap-4 sm:gap-8 pt-2.5 sm:pt-0 border-t border-slate-50 sm:border-0 w-full sm:w-auto">
+                        <div class="text-left sm:text-right">
+                            <p class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Total Tagihan</p>
+                            <p class="font-extrabold text-base sm:text-xl text-rose-500">Rp{{ number_format($totalOrang, 0, ',', '.') }}</p>
                         </div>
-                        <div id="icon-{{ $uid }}" class="text-slate-300 transition-transform duration-300">
+                        <div id="icon-{{ $uid }}" class="text-slate-300 transition-transform duration-300 p-1">
                             <i data-lucide="chevron-down" class="w-5 h-5"></i>
                         </div>
                     </div>
@@ -151,21 +151,21 @@
                 {{-- Detail Tabel --}}
                 <div id="{{ $uid }}" class="hidden border-t border-slate-50">
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left">
+                        <table class="w-full text-left min-w-[550px] sm:min-w-[650px]">
                             <thead class="bg-slate-50/50">
-                                <tr class="text-slate-300 font-bold text-[9px] uppercase tracking-[0.2em]">
-                                    <th class="px-8 py-4 w-36">Tanggal</th>
-                                    <th class="px-4 py-4">Produk</th>
-                                    <th class="px-4 py-4 text-center w-16">Qty</th>
-                                    <th class="px-4 py-4 text-right w-32">Harga/pcs</th>
-                                    <th class="px-4 py-4 text-right w-32">Total</th>
-                                    <th class="px-4 py-4 text-center w-44">Aksi</th>
+                                <tr class="text-slate-400 font-bold text-[9px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em]">
+                                    <th class="px-4 sm:px-8 py-3 sm:py-4 w-28 sm:w-36">Tanggal</th>
+                                    <th class="px-3 sm:px-4 py-3 sm:py-4">Produk</th>
+                                    <th class="px-2 sm:px-4 py-3 sm:py-4 text-center w-14 sm:w-16">Qty</th>
+                                    <th class="px-3 sm:px-4 py-3 sm:py-4 text-right w-24 sm:w-32">Harga/pcs</th>
+                                    <th class="px-3 sm:px-4 py-3 sm:py-4 text-right w-28 sm:w-32">Total</th>
+                                    <th class="px-3 sm:px-4 py-3 sm:py-4 text-center w-36 sm:w-44">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-50 text-sm">
+                            <tbody class="divide-y divide-slate-50 text-xs sm:text-sm">
                                 @foreach($items as $item)
                                 <tr class="hover:bg-slate-50/40 transition-all">
-                                    <td class="px-8 py-4 text-slate-400 font-bold text-xs tabular-nums whitespace-nowrap">
+                                    <td class="px-4 sm:px-8 py-3 sm:py-4 text-slate-400 font-bold text-xs tabular-nums whitespace-nowrap">
                                         {{ $item->created_at->format('d M Y') }}
                                     </td>
                                     <td class="px-4 py-4 font-bold text-slate-700">
@@ -304,48 +304,48 @@
 
     {{-- ===== Modal TAMBAH HUTANG ===== --}}
     <div id="modalTambah" class="fixed inset-0 z-[60] hidden overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen px-4">
+        <div class="flex items-center justify-center min-h-screen px-4 py-6">
             <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm" onclick="closeModal('modalTambah')"></div>
-            <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-md p-10 z-10 relative">
-                <h3 class="text-xl font-extrabold text-slate-800 mb-1">Input Hutang Baru 🖋️</h3>
-                <p class="text-xs text-slate-400 font-bold uppercase tracking-widest mb-8">Catat tagihan anggota koperasi</p>
-                <form action="{{ route('admin.hutang-store') }}" method="POST" class="space-y-5"
+            <div class="bg-white rounded-3xl sm:rounded-[2.5rem] shadow-2xl w-full max-w-md p-6 sm:p-10 z-10 relative">
+                <h3 class="text-xl sm:text-2xl font-extrabold text-slate-800 mb-1">Input Hutang Baru 🖋️</h3>
+                <p class="text-[10px] sm:text-xs text-slate-400 font-bold uppercase tracking-widest mb-6 sm:mb-8">Catat tagihan anggota koperasi</p>
+                <form action="{{ route('admin.hutang-store') }}" method="POST" class="space-y-4 sm:space-y-5"
                       onsubmit="return validasiNominal('tambahNominalValue')">
                     @csrf
                     <input type="hidden" name="_form" value="tambah">
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Nama Peminjam</label>
                         <input type="text" name="nama_pembeli" value="{{ old('nama_pembeli') }}" placeholder="Contoh: Mba Ria" required
-                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-rose-300 focus:ring-4 focus:ring-rose-50 outline-none transition-all text-sm font-bold">
+                               class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 focus:border-rose-300 focus:ring-4 focus:ring-rose-50 outline-none transition-all text-xs sm:text-sm font-bold">
                     </div>
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Produk / Barang</label>
                         <input type="text" name="barang" value="{{ old('barang') }}" placeholder="Contoh: Yakult" required
-                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-rose-300 focus:ring-4 focus:ring-rose-50 outline-none transition-all text-sm font-bold">
+                               class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 focus:border-rose-300 focus:ring-4 focus:ring-rose-50 outline-none transition-all text-xs sm:text-sm font-bold">
                     </div>
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-2 gap-3 sm:gap-4">
                         <div>
                             <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Qty</label>
                             <input type="number" name="qty" value="{{ old('qty', 1) }}" min="1" required
-                                   class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-rose-300 focus:ring-4 focus:ring-rose-50 outline-none transition-all text-sm font-bold">
+                                   class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 focus:border-rose-300 focus:ring-4 focus:ring-rose-50 outline-none transition-all text-xs sm:text-sm font-bold">
                         </div>
                         <div>
                             <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Total (Rp)</label>
                             <div class="relative">
-                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">Rp</span>
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs sm:text-sm">Rp</span>
                                 <input type="text" id="tambahNominalDisplay" placeholder="0" inputmode="numeric"
                                        value="{{ old('nominal') ? number_format((int) old('nominal'), 0, ',', '.') : '' }}"
-                                       class="w-full pl-10 pr-4 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-rose-300 focus:ring-4 focus:ring-rose-50 outline-none transition-all text-sm font-bold"
+                                       class="w-full pl-10 pr-4 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 focus:border-rose-300 focus:ring-4 focus:ring-rose-50 outline-none transition-all text-xs sm:text-sm font-bold"
                                        oninput="formatNominal(this, 'tambahNominalValue')">
                                 <input type="hidden" name="nominal" id="tambahNominalValue" value="{{ old('nominal') }}">
                             </div>
                         </div>
                     </div>
-                    <div class="flex gap-3 pt-4">
+                    <div class="flex gap-2.5 sm:gap-3 pt-3 sm:pt-4">
                         <button type="button" onclick="closeModal('modalTambah')"
-                                class="flex-1 px-6 py-4 rounded-2xl text-slate-400 font-bold text-sm hover:bg-slate-50 transition-all">BATAL</button>
+                                class="flex-1 px-4 sm:px-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-slate-400 font-bold text-xs sm:text-sm hover:bg-slate-50 transition-all uppercase tracking-widest">BATAL</button>
                         <button type="submit"
-                                class="flex-[2] bg-rose-500 text-white px-6 py-4 rounded-2xl font-bold text-sm shadow-lg shadow-rose-100 hover:bg-rose-600 transition-all active:scale-95">SIMPAN</button>
+                                class="flex-[2] bg-rose-500 text-white px-4 sm:px-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm shadow-lg shadow-rose-100 hover:bg-rose-600 transition-all active:scale-95 uppercase tracking-widest">SIMPAN</button>
                     </div>
                 </form>
             </div>
@@ -354,46 +354,46 @@
 
     {{-- ===== Modal EDIT HUTANG ===== --}}
     <div id="modalEdit" class="fixed inset-0 z-[60] hidden overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen px-4">
+        <div class="flex items-center justify-center min-h-screen px-4 py-6">
             <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm" onclick="closeModal('modalEdit')"></div>
-            <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-md p-10 z-10 relative">
-                <h3 class="text-xl font-extrabold text-slate-800 mb-1">Edit Hutang ✏️</h3>
-                <p class="text-xs text-slate-400 font-bold uppercase tracking-widest mb-8">Ubah data catatan hutang</p>
-                <form id="formEdit" action="" method="POST" class="space-y-5"
+            <div class="bg-white rounded-3xl sm:rounded-[2.5rem] shadow-2xl w-full max-w-md p-6 sm:p-10 z-10 relative">
+                <h3 class="text-xl sm:text-2xl font-extrabold text-slate-800 mb-1">Edit Hutang ✏️</h3>
+                <p class="text-[10px] sm:text-xs text-slate-400 font-bold uppercase tracking-widest mb-6 sm:mb-8">Ubah data catatan hutang</p>
+                <form id="formEdit" action="" method="POST" class="space-y-4 sm:space-y-5"
                       onsubmit="return validasiNominal('editNominalValue')">
                     @csrf @method('PUT')
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Nama Peminjam</label>
                         <input type="text" name="nama_pembeli" id="editNama" required
-                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all text-sm font-bold">
+                               class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all text-xs sm:text-sm font-bold">
                     </div>
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Produk / Barang</label>
                         <input type="text" name="barang" id="editBarang" required
-                               class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all text-sm font-bold">
+                               class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all text-xs sm:text-sm font-bold">
                     </div>
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-2 gap-3 sm:gap-4">
                         <div>
                             <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Qty</label>
                             <input type="number" name="qty" id="editQty" min="1" required
-                                   class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all text-sm font-bold">
+                                   class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all text-xs sm:text-sm font-bold">
                         </div>
                         <div>
                             <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Total (Rp)</label>
                             <div class="relative">
-                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">Rp</span>
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs sm:text-sm">Rp</span>
                                 <input type="text" id="editNominalDisplay" placeholder="0" inputmode="numeric"
-                                       class="w-full pl-10 pr-4 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all text-sm font-bold"
+                                       class="w-full pl-10 pr-4 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-50 outline-none transition-all text-xs sm:text-sm font-bold"
                                        oninput="formatNominal(this, 'editNominalValue')">
                                 <input type="hidden" name="nominal" id="editNominalValue">
                             </div>
                         </div>
                     </div>
-                    <div class="flex gap-3 pt-4">
+                    <div class="flex gap-2.5 sm:gap-3 pt-3 sm:pt-4">
                         <button type="button" onclick="closeModal('modalEdit')"
-                                class="flex-1 px-6 py-4 rounded-2xl text-slate-400 font-bold text-sm hover:bg-slate-50 transition-all">BATAL</button>
+                                class="flex-1 px-4 sm:px-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-slate-400 font-bold text-xs sm:text-sm hover:bg-slate-50 transition-all uppercase tracking-widest">BATAL</button>
                         <button type="submit"
-                                class="flex-[2] bg-indigo-600 text-white px-6 py-4 rounded-2xl font-bold text-sm shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-95">SIMPAN PERUBAHAN</button>
+                                class="flex-[2] bg-indigo-600 text-white px-4 sm:px-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-95 uppercase tracking-widest">SIMPAN</button>
                     </div>
                 </form>
             </div>
