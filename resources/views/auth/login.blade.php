@@ -58,8 +58,16 @@
                     <label class="text-[10px] font-semibold text-slate-500 uppercase tracking-widest ml-1">Password</label>
                     <div class="relative">
                         <i data-lucide="key-round" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
-                        <input type="password" name="password" placeholder="masukkan password" required
-                            class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-12 pr-4 py-3 text-slate-800 text-sm outline-none focus:border-indigo-400 focus:bg-white transition-all">
+                        <input type="password" id="passwordInput" name="password" placeholder="masukkan password" required
+                            class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-12 pr-11 py-3 text-slate-800 text-sm outline-none focus:border-indigo-400 focus:bg-white transition-all">
+                        <button type="button" onclick="togglePassword()" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none p-1 transition-colors" title="Lihat/Sembunyikan Password">
+                            <span id="eyeOpen">
+                                <i data-lucide="eye" class="w-4 h-4"></i>
+                            </span>
+                            <span id="eyeClosed" class="hidden">
+                                <i data-lucide="eye-off" class="w-4 h-4"></i>
+                            </span>
+                        </button>
                     </div>
                 </div>
 
@@ -77,6 +85,24 @@
         </div>
     </div>
 
-    <script>lucide.createIcons();</script>
+    <script>
+        lucide.createIcons();
+
+        function togglePassword() {
+            const input = document.getElementById('passwordInput');
+            const eyeOpen = document.getElementById('eyeOpen');
+            const eyeClosed = document.getElementById('eyeClosed');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                eyeOpen.classList.add('hidden');
+                eyeClosed.classList.remove('hidden');
+            } else {
+                input.type = 'password';
+                eyeClosed.classList.add('hidden');
+                eyeOpen.classList.remove('hidden');
+            }
+        }
+    </script>
 </body>
 </html>
