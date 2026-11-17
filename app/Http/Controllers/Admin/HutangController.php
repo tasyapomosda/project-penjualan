@@ -92,7 +92,7 @@ class HutangController extends Controller
             // Catat sebagai transaksi pelunasan
             Transaction::create([
                 'product_id'         => $debt->product_id,
-                'nama_pembeli'       => $debt->nama_pembeli . ' (Pelunasan Hutang)',
+                'nama_pembeli'       => $debt->nama_pembeli,
                 'nama_produk_manual' => $debt->barang . ' (Pelunasan Hutang)',
                 'jumlah'             => $debt->qty,
                 'total_harga'        => $debt->nominal,
