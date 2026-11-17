@@ -13,16 +13,64 @@
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #f1f5f9; border-radius: 10px; }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        .toast { animation: toastIn 0.35s ease-out; }
     </style>
 </head>
 <body class="bg-slate-50 flex h-screen overflow-hidden text-slate-900 font-medium">
 
     @include('admin.partials.sidebar')
 
-    <main class="flex-1 ml-72 flex flex-col p-6 md:p-10 min-w-0 overflow-hidden">
+    {{-- ===== Notifikasi (Toast) ===== --}}
+    <div id="toastContainer" class="fixed top-6 right-6 z-[100] flex flex-col gap-3 w-full max-w-sm">
+
+        @if(session('success'))
+        <div class="toast flex items-start gap-3 bg-emerald-50 border border-emerald-200 text-emerald-700 px-5 py-4 rounded-2xl shadow-lg shadow-emerald-100 text-sm font-bold transition-all duration-500">
+            <i data-lucide="check-circle" class="w-5 h-5 flex-shrink-0 mt-0.5"></i>
+            <span class="flex-1">{{ session('success') }}</span>
+            <button type="button" onclick="this.closest('.toast').remove()" class="text-emerald-400 hover:text-emerald-600">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+        </div>
+        @endif
+
+        @if(session('error'))
+        <div class="toast flex items-start gap-3 bg-rose-50 border border-rose-200 text-rose-700 px-5 py-4 rounded-2xl shadow-lg shadow-rose-100 text-sm font-bold transition-all duration-500">
+            <i data-lucide="x-circle" class="w-5 h-5 flex-shrink-0 mt-0.5"></i>
+            <span class="flex-1">{{ session('error') }}</span>
+            <button type="button" onclick="this.closest('.toast').remove()" class="text-rose-400 hover:text-rose-600">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+        </div>
+        @endif
+
+        @if($errors->any())
+        <div class="toast flex items-start gap-3 bg-rose-50 border border-rose-200 text-rose-700 px-5 py-4 rounded-2xl shadow-lg shadow-rose-100 text-sm font-bold transition-all duration-500">
+            <i data-lucide="alert-triangle" class="w-5 h-5 flex-shrink-0 mt-0.5"></i>
+            <div class="flex-1">
+                <p class="mb-1">Data gagal disimpan:</p>
+                <ul class="list-disc list-inside font-semibold text-xs space-y-0.5">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            <button type="button" onclick="this.closest('.toast').remove()" class="text-rose-400 hover:text-rose-600">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+        </div>
+        @endif
+
+    </div>
+
+    <main id="mainContent" class="flex-1 ml-72 flex flex-col p-4 sm:p-6 md:p-10 min-w-0 overflow-hidden">
 
         {{-- Header --}}
-        <header class="flex justify-between items-end mb-8 flex-shrink-0">
+        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8 flex-shrink-0">
             <div>
                 <h2 class="text-2xl font-extrabold text-slate-800 leading-tight tracking-tight">Catatan Hutang 📋</h2>
                 <p class="text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-1">Kelola tagihan anggota koperasi</p>
@@ -34,16 +82,8 @@
             </button>
         </header>
 
-        {{-- Flash Message --}}
-        @if(session('success'))
-        <div class="mb-6 flex items-center gap-3 bg-emerald-50 border border-emerald-100 text-emerald-700 px-6 py-4 rounded-2xl text-sm font-bold flex-shrink-0">
-            <i data-lucide="check-circle" class="w-5 h-5 flex-shrink-0"></i>
-            {{ session('success') }}
-        </div>
-        @endif
-
         {{-- Summary Bar --}}
-        <div class="grid grid-cols-2 gap-6 mb-8 flex-shrink-0">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-8 flex-shrink-0">
             <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-5 group transition-all hover:border-rose-200">
                 <div class="bg-rose-50 text-rose-500 p-4 rounded-2xl transition-transform group-hover:scale-110">
                     <i data-lucide="alert-circle" class="w-6 h-6"></i>
@@ -145,8 +185,7 @@
                                     <td class="px-4 py-4">
                                         <div class="flex items-center justify-center gap-2">
 
-                                            {{-- ✅ FIX: nominal dikirim sebagai integer murni (tanpa format titik/koma)
-                                                 agar tidak bentrok dengan pemisah parameter JS --}}
+                                            {{-- Nominal dikirim sebagai integer murni agar tidak bentrok dengan pemisah parameter JS --}}
                                             <button
                                                 onclick="openLunasModal(
                                                     {{ $item->id }},
@@ -270,22 +309,24 @@
             <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-md p-10 z-10 relative">
                 <h3 class="text-xl font-extrabold text-slate-800 mb-1">Input Hutang Baru 🖋️</h3>
                 <p class="text-xs text-slate-400 font-bold uppercase tracking-widest mb-8">Catat tagihan anggota koperasi</p>
-                <form action="{{ route('admin.hutang-store') }}" method="POST" class="space-y-5">
+                <form action="{{ route('admin.hutang-store') }}" method="POST" class="space-y-5"
+                      onsubmit="return validasiNominal('tambahNominalValue')">
                     @csrf
+                    <input type="hidden" name="_form" value="tambah">
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Nama Peminjam</label>
-                        <input type="text" name="nama_pembeli" placeholder="Contoh: Mba Ria" required
+                        <input type="text" name="nama_pembeli" value="{{ old('nama_pembeli') }}" placeholder="Contoh: Mba Ria" required
                                class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-rose-300 focus:ring-4 focus:ring-rose-50 outline-none transition-all text-sm font-bold">
                     </div>
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Produk / Barang</label>
-                        <input type="text" name="barang" placeholder="Contoh: Yakult" required
+                        <input type="text" name="barang" value="{{ old('barang') }}" placeholder="Contoh: Yakult" required
                                class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-rose-300 focus:ring-4 focus:ring-rose-50 outline-none transition-all text-sm font-bold">
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Qty</label>
-                            <input type="number" name="qty" value="1" min="1" required
+                            <input type="number" name="qty" value="{{ old('qty', 1) }}" min="1" required
                                    class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-rose-300 focus:ring-4 focus:ring-rose-50 outline-none transition-all text-sm font-bold">
                         </div>
                         <div>
@@ -293,9 +334,10 @@
                             <div class="relative">
                                 <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">Rp</span>
                                 <input type="text" id="tambahNominalDisplay" placeholder="0" inputmode="numeric"
+                                       value="{{ old('nominal') ? number_format((int) old('nominal'), 0, ',', '.') : '' }}"
                                        class="w-full pl-10 pr-4 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-rose-300 focus:ring-4 focus:ring-rose-50 outline-none transition-all text-sm font-bold"
                                        oninput="formatNominal(this, 'tambahNominalValue')">
-                                <input type="hidden" name="nominal" id="tambahNominalValue">
+                                <input type="hidden" name="nominal" id="tambahNominalValue" value="{{ old('nominal') }}">
                             </div>
                         </div>
                     </div>
@@ -317,7 +359,8 @@
             <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-md p-10 z-10 relative">
                 <h3 class="text-xl font-extrabold text-slate-800 mb-1">Edit Hutang ✏️</h3>
                 <p class="text-xs text-slate-400 font-bold uppercase tracking-widest mb-8">Ubah data catatan hutang</p>
-                <form id="formEdit" action="" method="POST" class="space-y-5">
+                <form id="formEdit" action="" method="POST" class="space-y-5"
+                      onsubmit="return validasiNominal('editNominalValue')">
                     @csrf @method('PUT')
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Nama Peminjam</label>
@@ -360,6 +403,49 @@
     <script>
         lucide.createIcons();
 
+        // ── Toast helpers ──────────────────────────────────────────
+        function dismissToast(toast) {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(20px)';
+            setTimeout(function () { toast.remove(); }, 500);
+        }
+
+        // Auto-hide notifikasi dari server setelah 4 detik
+        document.querySelectorAll('.toast').forEach(function (toast) {
+            setTimeout(function () { dismissToast(toast); }, 4000);
+        });
+
+        // Tampilkan toast dari JavaScript (type: 'error' | 'success')
+        function showToast(message, type) {
+            type = type || 'error';
+            const isSuccess = type === 'success';
+            const colors = isSuccess
+                ? 'bg-emerald-50 border-emerald-200 text-emerald-700 shadow-emerald-100'
+                : 'bg-rose-50 border-rose-200 text-rose-700 shadow-rose-100';
+            const icon = isSuccess ? 'check-circle' : 'x-circle';
+
+            const toast = document.createElement('div');
+            toast.className = 'toast flex items-start gap-3 border px-5 py-4 rounded-2xl shadow-lg text-sm font-bold transition-all duration-500 ' + colors;
+            toast.innerHTML =
+                '<i data-lucide="' + icon + '" class="w-5 h-5 flex-shrink-0 mt-0.5"></i>' +
+                '<span class="flex-1">' + message + '</span>';
+
+            document.getElementById('toastContainer').appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(function () { dismissToast(toast); }, 4000);
+        }
+
+        // ── Validasi nominal di browser (nominal 0 / kosong ditolak) ──
+        function validasiNominal(hiddenId) {
+            const nominal = parseInt(document.getElementById(hiddenId).value || '0', 10);
+            if (isNaN(nominal) || nominal < 1) {
+                showToast('Hutang dengan nominal 0 tidak bisa diinput. Nominal minimal 1.', 'error');
+                return false;
+            }
+            return true;
+        }
+
         // ── Modal helpers ──────────────────────────────────────────
         function openModal(id)  { document.getElementById(id).classList.remove('hidden'); }
         function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
@@ -381,7 +467,6 @@
         // ── Modal Lunas ───────────────────────────────────────────
         function openLunasModal(id, nama, barang, nominal) {
             document.getElementById('lunasNama').textContent   = nama;
-            // ✅ FIX: nominal sudah integer dari PHP, format di sini pakai toLocaleString
             document.getElementById('lunasDetail').textContent = barang + ' · Rp' + nominal.toLocaleString('id-ID');
 
             document.getElementById('formLunas').action = '/admin/hutang/' + id + '/lunas';
@@ -418,11 +503,14 @@
             document.getElementById('editBarang').value          = barang;
             document.getElementById('editQty').value             = qty;
             document.getElementById('editNominalDisplay').value  = parseInt(nominal, 10).toLocaleString('id-ID');
-            document.getElementById('editNominalValue').value    = nominal;
+            document.getElementById('editNominalValue').value    = parseInt(nominal, 10);
 
             openModal('modalEdit');
         }
+
+        // ── Buka lagi modal Tambah jika validasi server gagal ─────
+        @if($errors->any() && old('_form') === 'tambah')
+            openModal('modalTambah');
+        @endif
     </script>
 </body>
-</html>
-

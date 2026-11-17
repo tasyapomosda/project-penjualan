@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -28,79 +28,10 @@
 </head>
 <body class="bg-slate-50 dark:bg-[#0f172a] text-slate-900 dark:text-slate-200 min-h-screen flex overflow-hidden h-screen font-medium">
 
-    {{-- ─── SIDEBAR — spacing disamakan persis dengan sidebar.blade (p-8, mb-12, gap-4, space-y-2) ── --}}
-    <aside class="w-72 bg-white dark:bg-[#1e293b] border-r border-slate-100 dark:border-slate-800 flex flex-col p-8 z-40 h-screen fixed left-0 top-0 transition-colors">
-
-        {{-- Logo --}}
-        <div class="flex items-center gap-3 mb-12">
-            <div class="bg-[#6366f1] dark:bg-purple-600 p-2 rounded-xl shadow-lg shadow-indigo-100 dark:shadow-purple-900/50">
-                <i data-lucide="cookie" class="text-white w-6 h-6"></i>
-            </div>
-            <div>
-                <span class="text-xl font-extrabold text-slate-800 dark:text-white tracking-tight leading-none block">Showcase</span>
-                <p class="text-slate-400 dark:text-slate-500 text-[10px] uppercase tracking-widest font-bold">Snack Admin</p>
-            </div>
-        </div>
-
-        {{-- Nav links --}}
-        <nav class="flex-1 space-y-2 overflow-y-auto custom-scrollbar">
-            <p class="text-slate-400 dark:text-slate-500 text-[10px] uppercase tracking-widest font-bold px-3 mb-2">Menu</p>
-
-            <a href="{{ route('admin.dashboard') }}"
-               class="flex items-center gap-4 px-4 py-4 rounded-2xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50/50 dark:hover:text-white dark:hover:bg-slate-800 transition-all font-semibold">
-                <i data-lucide="layout-grid" class="w-5 h-5"></i>
-                <span>Dashboard</span>
-            </a>
-            <a href="{{ route('admin.harian') }}"
-               class="flex items-center gap-4 px-4 py-4 rounded-2xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50/50 dark:hover:text-white dark:hover:bg-slate-800 transition-all font-semibold">
-                <i data-lucide="calendar" class="w-5 h-5"></i>
-                <span>Transaksi Harian</span>
-            </a>
-            <a href="{{ route('admin.stok') }}"
-               class="flex items-center gap-4 px-4 py-4 rounded-2xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50/50 dark:hover:text-white dark:hover:bg-slate-800 transition-all font-semibold">
-                <i data-lucide="package" class="w-5 h-5"></i>
-                <span>Stok Barang</span>
-            </a>
-            <a href="{{ route('admin.pendapatan') }}"
-               class="flex items-center gap-4 px-4 py-4 rounded-2xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50/50 dark:hover:text-white dark:hover:bg-slate-800 transition-all font-semibold">
-                <i data-lucide="banknote" class="w-5 h-5"></i>
-                <span>Rekap Pendapatan</span>
-            </a>
-            <a href="{{ route('admin.hutang') }}"
-               class="flex items-center gap-4 px-4 py-4 rounded-2xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50/50 dark:hover:text-white dark:hover:bg-slate-800 transition-all font-semibold">
-                <i data-lucide="book-open" class="w-5 h-5"></i>
-                <span>Rekap Hutang</span>
-            </a>
-
-            {{-- Active: Laporan --}}
-            <a href="{{ route('admin.laporan') }}"
-               class="flex items-center gap-4 px-4 py-4 rounded-2xl bg-indigo-50 dark:bg-purple-600/20 text-indigo-600 dark:text-purple-400 font-bold shadow-sm dark:shadow-none border border-transparent dark:border-purple-500/30">
-                <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
-                <span>Laporan Penjualan</span>
-            </a>
-
-            <p class="text-slate-400 text-[10px] uppercase tracking-widest font-bold px-3 mb-2 mt-6">Akun</p>
-
-            <a href="{{ route('password.edit') }}"
-               class="flex items-center gap-4 px-4 py-4 rounded-2xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50/50 dark:hover:text-white dark:hover:bg-slate-800 transition-all font-semibold">
-                <i data-lucide="key-round" class="w-5 h-5"></i>
-                <span>Ganti Password</span>
-            </a>
-                </nav>
-
-        {{-- Logout — nempel mt-auto, tanpa border pemisah, sama seperti sidebar.blade --}}
-        <form action="{{ route('logout') }}" method="POST" class="mt-auto">
-            @csrf
-            <button type="submit"
-                class="flex items-center gap-4 px-4 py-4 w-full rounded-2xl text-rose-500 dark:text-red-400 hover:bg-rose-50 dark:hover:bg-red-500/10 transition-all font-bold">
-                <i data-lucide="log-out" class="w-5 h-5"></i>
-                <span>Keluar</span>
-            </button>
-        </form>
-    </aside>
+    @include('admin.partials.sidebar')
 
     {{-- ─── MAIN CONTENT ─── --}}
-    <main class="ml-72 flex-1 p-8 overflow-y-auto custom-scrollbar">
+    <main id="mainContent" class="ml-72 flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto custom-scrollbar">
 
         {{-- ── Header: Judul kiri, Toggle Tema + Filter Periode + Export PDF kanan ── --}}
         <div class="flex items-start justify-between gap-4 mb-6 flex-wrap">

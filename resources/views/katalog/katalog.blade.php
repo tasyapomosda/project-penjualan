@@ -171,23 +171,14 @@
         body.theme-light main .flex-1.overflow-y-auto { background-color: #f1f5f9; }
 
         /* ── FIX: tombol Draft & Edit (bg-slate-700) di dalam aside/bottom-drawer
-           sebelumnya ikut ter-konversi jadi latar terang oleh aturan di atas,
-           sehingga teks putihnya tidak lagi kontras (kadang malah tertimpa
-           balik jadi teks gelap juga, tergantung urutan CSS). Selector ini
-           lebih spesifik (menyertakan konteks aside/.bottom-drawer) supaya
-           pasti menang, dan mengunci latar tetap gelap + teks tetap putih. ── */
+           tetap berlatar gelap dengan teks putih di tema terang ── */
         body.theme-light aside .bg-slate-700.text-white,
         body.theme-light .bottom-drawer .bg-slate-700.text-white {
             background-color: #334155 !important;
             color: #ffffff !important;
         }
 
-        /* ── FIX tambahan: khusus di dalam .bottom-drawer (tampilan mobile),
-           aturan "body.theme-light .bottom-drawer .text-white" di atas
-           punya spesifisitas sama dengan fix gradient tapi posisinya lebih
-           bawah, sehingga selalu menang dan menimpa balik jadi gelap.
-           Selector ini sengaja dibuat lebih spesifik (menyertakan konteks
-           .bottom-drawer) supaya pasti menang di mobile juga. ── */
+        /* ── FIX tambahan: tombol gradient di dalam .bottom-drawer (mobile) ── */
         body.theme-light .bottom-drawer .bg-gradient-to-r.text-white {
             color: #ffffff !important;
         }
@@ -204,7 +195,7 @@
         {{-- Header --}}
         <div class="flex-shrink-0 bg-[#0f172a] px-6 pt-6 pb-4 border-b border-slate-800/60
                     flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 flex-wrap">
                 <div>
                     <h1 class="text-2xl font-black text-white tracking-tight">Showcase Snack</h1>
                     <p class="text-slate-500 text-[10px] uppercase tracking-[0.2em] italic">Campus Self-Service System</p>
@@ -213,6 +204,25 @@
                     <span class="toggle-pill"></span>
                     <span id="toggleLabel">☀️</span>
                 </button>
+
+                {{-- Akun: login / keluar --}}
+                @if($akun['login'])
+                    <div class="flex items-center gap-2">
+                        <span class="text-[11px] font-bold text-slate-400 hidden sm:inline">{{ $akun['nama'] }}</span>
+                        @if($akun['admin'])
+                            <a href="{{ route('admin.dashboard') }}" class="theme-toggle-btn">Dashboard</a>
+                        @endif
+                        @if($akun['staf'])
+                            <a href="{{ route('password.edit') }}" class="theme-toggle-btn">Password</a>
+                        @endif
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="theme-toggle-btn">Keluar</button>
+                        </form>
+                    </div>
+                @else
+                    <a href="{{ route('login') }}" class="theme-toggle-btn">Login</a>
+                @endif
             </div>
 
             <div class="flex flex-row gap-2 sm:gap-3 w-full lg:w-auto">
@@ -223,13 +233,14 @@
                         class="bg-transparent text-xs sm:text-sm text-white focus:outline-none w-full placeholder:text-slate-600 font-medium">
                 </div>
 
-                {{-- Nama Pembeli --}}
+                {{-- Nama Pembeli (terkunci untuk staf yang login) --}}
                 <div :class="shakeName ? 'shake border-red-500/70' : 'border-slate-700'"
                      class="bg-slate-800/50 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl sm:rounded-2xl border shadow-inner flex items-center gap-2 flex-1 min-w-0 sm:w-48 transition-all">
                     <i data-lucide="user" class="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0"
                        :class="!namaPembeli ? 'text-red-400/60' : 'text-slate-500'"></i>
                     <input type="text" x-model="namaPembeli" placeholder="Isi nama pembeli"
                         @input="onNamaChange()"
+                        :readonly="akun.staf"
                         class="bg-transparent text-xs sm:text-sm text-white focus:outline-none w-full placeholder:text-slate-600 font-bold"
                         :class="!namaPembeli ? 'placeholder:text-red-400/40' : ''">
                 </div>
@@ -417,6 +428,39 @@
     </div>
 
     {{-- ════════════════════════════════════
+         MODAL: KONFIRMASI KASBON
+    ════════════════════════════════════ --}}
+    <div x-show="confirmKasbon.show" x-cloak
+         class="fixed inset-0 z-[160] flex items-center justify-center p-4">
+        <div class="fixed inset-0 bg-[#020617]/80 backdrop-blur-md" @click="confirmKasbon.show = false"></div>
+        <div x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 scale-90"
+             x-transition:enter-end="opacity-100 scale-100"
+             class="relative bg-[#1e293b] rounded-3xl shadow-2xl w-full max-w-xs p-8 text-center border border-slate-700">
+            <div class="w-14 h-14 bg-rose-400/10 text-rose-400 rounded-full flex items-center justify-center mx-auto mb-5">
+                <i data-lucide="file-text" class="w-7 h-7"></i>
+            </div>
+            <h3 class="text-base font-black text-white mb-2">Catat Kasbon?</h3>
+            <p class="text-slate-400 text-xs mb-1">Kasbon akan dicatat atas nama</p>
+            <p class="text-white font-black text-lg mb-1" x-text="confirmKasbon.nama"></p>
+            <p class="text-slate-400 text-xs mb-6">
+                <span x-text="confirmKasbon.items + ' item'"></span> ·
+                <span class="text-rose-400 font-bold" x-text="formatRupiah(confirmKasbon.total)"></span>
+            </p>
+            <div class="flex gap-3">
+                <button @click="confirmKasbon.show = false"
+                        class="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2.5 rounded-xl text-xs font-bold transition-all">
+                    Batal
+                </button>
+                <button @click="konfirmasiKasbon()"
+                        class="flex-1 bg-rose-500 hover:bg-rose-400 text-white py-2.5 rounded-xl text-xs font-black transition-all">
+                    Ya, Catat
+                </button>
+            </div>
+        </div>
+    </div>
+
+    {{-- ════════════════════════════════════
          MODAL: SUKSES
     ════════════════════════════════════ --}}
     <div x-show="showModal" x-cloak
@@ -432,7 +476,7 @@
             </div>
             <h3 class="text-2xl font-black text-slate-900 mb-2">Berhasil!</h3>
             <p class="text-slate-500 font-medium text-sm leading-relaxed mb-10">
-                Terima kasih <span class="font-bold text-indigo-600" x-text="namaPembeli"></span>!
+                Terima kasih <span class="font-bold text-indigo-600" x-text="namaSukses"></span>!
                 Transaksi kamu sudah tercatat
             </p>
             <button @click="resetPage()"
@@ -468,7 +512,12 @@
         /* ── CART SYSTEM ── */
         function cartSystem() {
             return {
-                namaPembeli: '', search: '', metodeBayar: 'cash',
+                // Info akun dari server (pengunjung biasa / staf / admin)
+                akun: {{ Js::from($akun) }},
+                stafList: {{ Js::from($stafList) }},
+                stafId: '',
+
+                namaPembeli: '', namaSukses: '', search: '', metodeBayar: 'cash',
                 cart: {}, totalHarga: 0, totalItems: 0,
                 loading: false, showModal: false,
                 showNameWarning: false, shakeName: false,
@@ -476,17 +525,39 @@
                 loadedFromSaved: null, drawerOpen: false,
                 toast: { show: false, message: '', type: 'success', _timer: null },
                 confirmLoad: { show: false, idx: null },
+                confirmKasbon: { show: false, nama: '', items: 0, total: 0, mode: 'current', idx: null },
 
                 init() {
                     try {
                         const stored = localStorage.getItem('snack_saved_carts');
                         if (stored) this.savedCarts = JSON.parse(stored);
                     } catch(e) { this.savedCarts = []; }
+
+                    if (this.akun.staf) {
+                        // Staf login: nama terkunci ke nama akunnya
+                        this.namaPembeli = this.akun.nama;
+                    } else {
+                        // Pengunjung / admin: isi nama dari kunjungan sebelumnya
+                        try {
+                            const namaTersimpan = localStorage.getItem('snack_nama_pembeli');
+                            if (namaTersimpan) this.namaPembeli = namaTersimpan;
+                        } catch(e) {}
+                    }
+
+                    // Admin: saat pilih staf dari dropdown, nama di header ikut berubah
+                    if (this.akun.admin) {
+                        this.$watch('stafId', (val) => {
+                            this.namaPembeli = val ? this._namaStaf(val) : '';
+                        });
+                    }
+
                     this.$nextTick(() => lucide.createIcons());
                 },
 
                 onNamaChange() {
+                    if (this.akun.staf) return;
                     if (this.showNameWarning && this.namaPembeli.trim()) this.showNameWarning = false;
+                    try { localStorage.setItem('snack_nama_pembeli', this.namaPembeli.trim()); } catch(e) {}
                 },
 
                 add(id, name, price, stok) {
@@ -541,7 +612,23 @@
                     this.toast._timer = setTimeout(() => { this.toast.show = false; }, duration);
                 },
 
+                /* ── Nama pembeli ── */
+                _namaStaf(id) {
+                    const s = this.stafList.find(x => String(x.id) === String(id));
+                    return s ? s.name : '';
+                },
+
+                // Nama yang dikirim ke server (server tetap menentukan ulang demi keamanan)
+                _namaKirim() {
+                    if (this.akun.staf) return this.akun.nama;
+                    if (this.akun.admin && this.stafId) return this._namaStaf(this.stafId);
+                    return this.namaPembeli.trim();
+                },
+
                 _requireNama() {
+                    // Staf: nama dari akun. Admin pilih staf: nama dari dropdown.
+                    if (this.akun.staf) return true;
+                    if (this.akun.admin && this.stafId) return true;
                     if (this.namaPembeli.trim()) return true;
                     this.showNameWarning = true;
                     this.shakeName = true;
@@ -549,21 +636,33 @@
                     return false;
                 },
 
+                /* ── Draft / keranjang disimpan ── */
                 simpanKeranjang() {
                     if (!this._requireNama() || this.totalItems === 0) return;
-                    const namaLower = this.namaPembeli.trim().toLowerCase();
+
+                    if (this.metodeBayar === 'hutang') {
+                        if (!this.akun.login) { this.showToast('Kasbon hanya untuk staf yang login', 'error'); return; }
+                        if (this.akun.admin && !this.stafId) { this.showToast('Pilih nama staf dulu', 'error'); return; }
+                    }
+
+                    const nama = this._namaKirim();
+                    const namaLower = nama.toLowerCase();
                     const idx = this.savedCarts.findIndex(s => s.nama.toLowerCase() === namaLower);
                     const obj = {
-                        nama: this.namaPembeli.trim(),
+                        nama: nama,
                         cart: JSON.parse(JSON.stringify(this.cart)),
                         total: this.totalHarga,
                         metode: this.metodeBayar,
+                        stafId: this.stafId,
                         waktu: new Date().toLocaleTimeString('id-ID', { hour:'2-digit', minute:'2-digit' })
                     };
                     if (idx >= 0) { this.savedCarts.splice(idx, 1, obj); this.showToast('Keranjang "' + obj.nama + '" diperbarui ✅'); }
                     else          { this.savedCarts.push(obj);             this.showToast('Keranjang "' + obj.nama + '" disimpan 🔖'); }
                     this._persistSaved();
-                    this.cart = {}; this.namaPembeli = ''; this.metodeBayar = 'cash';
+                    this.cart = {};
+                    this.namaPembeli = this.akun.staf ? this.akun.nama : '';
+                    this.metodeBayar = 'cash';
+                    this.stafId = '';
                     this.loadedFromSaved = null; this.calculate(); this.activeTab = 'saved';
                     this.$nextTick(() => lucide.createIcons());
                 },
@@ -577,7 +676,12 @@
                     const saved = this.savedCarts[idx];
                     if (!saved) return;
                     this.cart = JSON.parse(JSON.stringify(saved.cart));
-                    this.namaPembeli = saved.nama; this.metodeBayar = saved.metode;
+                    this.metodeBayar = saved.metode;
+                    this.stafId = saved.stafId || '';
+                    // Draft kasbon admin memakai nama staf, jadi kolom nama dikosongkan
+                    this.namaPembeli = this.akun.staf
+                        ? this.akun.nama
+                        : (saved.metode === 'hutang' ? '' : saved.nama);
                     this.loadedFromSaved = idx; this.calculate(); this.activeTab = 'current';
                     this.showToast('Keranjang "' + saved.nama + '" dimuat 🛒');
                     this.$nextTick(() => lucide.createIcons());
@@ -591,34 +695,111 @@
                     this.$nextTick(() => lucide.createIcons());
                 },
 
-                async bayarSaved(idx) {
-                    const saved = this.savedCarts[idx]; if (!saved) return;
-                    const prev = { cart:this.cart, nama:this.namaPembeli, metode:this.metodeBayar, total:this.totalHarga, items:this.totalItems };
-                    this.cart = saved.cart; this.namaPembeli = saved.nama; this.metodeBayar = saved.metode;
-                    this.totalHarga = saved.total;
-                    this.totalItems = Object.values(saved.cart).reduce((a,i) => a + i.qty, 0);
-                    await this.submitForm(true);
-                    if (this.showModal) { this.savedCarts.splice(idx,1); this._persistSaved(); }
-                    else { Object.assign(this, { cart:prev.cart, namaPembeli:prev.nama, metodeBayar:prev.metode, totalHarga:prev.total, totalItems:prev.items }); }
-                },
-
                 _persistSaved() {
                     try { localStorage.setItem('snack_saved_carts', JSON.stringify(this.savedCarts)); } catch(e) {}
                 },
 
-                async submitForm(skipValidasi = false) {
-                    if (!skipValidasi && (!this._requireNama() || this.totalItems === 0)) return;
+                /* ── Pembayaran ── */
+
+                // Tombol "Konfirmasi / Selesaikan Pembelian"
+                async submitForm() {
+                    if (!this._requireNama() || this.totalItems === 0) return;
+
+                    if (this.metodeBayar === 'hutang') {
+                        if (!this.akun.login) { this.showToast('Kasbon hanya untuk staf yang login', 'error'); return; }
+                        if (this.akun.admin && !this.stafId) { this.showToast('Pilih nama staf dulu', 'error'); return; }
+
+                        // Tanya dulu sebelum kasbon dicatat
+                        this.confirmKasbon = {
+                            show: true, nama: this._namaKirim(),
+                            items: this.totalItems, total: this.totalHarga,
+                            mode: 'current', idx: null
+                        };
+                        this.$nextTick(() => lucide.createIcons());
+                        return;
+                    }
+
+                    await this._kirim();
+                },
+
+                // Tombol "Bayar" pada kartu di tab Disimpan
+                async bayarSaved(idx, sudahKonfirmasi = false) {
+                    const saved = this.savedCarts[idx]; if (!saved) return;
+
+                    if (saved.metode === 'hutang') {
+                        if (!this.akun.login) { this.showToast('Kasbon hanya untuk staf yang login', 'error'); return; }
+                        if (this.akun.admin && !saved.stafId) { this.showToast('Pilih nama staf pada draft ini dulu', 'error'); return; }
+
+                        if (!sudahKonfirmasi) {
+                            this.confirmKasbon = {
+                                show: true,
+                                nama: this.akun.staf ? this.akun.nama : this._namaStaf(saved.stafId),
+                                items: Object.values(saved.cart).reduce((a, i) => a + i.qty, 0),
+                                total: saved.total,
+                                mode: 'saved', idx
+                            };
+                            this.$nextTick(() => lucide.createIcons());
+                            return;
+                        }
+                    }
+
+                    const prev = {
+                        cart: this.cart, nama: this.namaPembeli, metode: this.metodeBayar,
+                        total: this.totalHarga, items: this.totalItems,
+                        stafId: this.stafId, loaded: this.loadedFromSaved
+                    };
+
+                    this.cart = saved.cart; this.metodeBayar = saved.metode;
+                    this.stafId = saved.stafId || '';
+                    this.namaPembeli = this.akun.staf ? this.akun.nama : saved.nama;
+                    this.totalHarga = saved.total;
+                    this.totalItems = Object.values(saved.cart).reduce((a, i) => a + i.qty, 0);
+                    this.loadedFromSaved = null; // cegah penghapusan ganda draft
+
+                    await this._kirim();
+
+                    if (this.showModal) {
+                        this.savedCarts.splice(idx, 1);
+                        this._persistSaved();
+                    } else {
+                        Object.assign(this, {
+                            cart: prev.cart, namaPembeli: prev.nama, metodeBayar: prev.metode,
+                            totalHarga: prev.total, totalItems: prev.items,
+                            stafId: prev.stafId, loadedFromSaved: prev.loaded
+                        });
+                    }
+                },
+
+                // Dipanggil dari tombol "Ya, Catat" di modal konfirmasi kasbon
+                async konfirmasiKasbon() {
+                    const { mode, idx } = this.confirmKasbon;
+                    this.confirmKasbon.show = false;
+                    if (mode === 'saved') await this.bayarSaved(idx, true);
+                    else await this._kirim();
+                },
+
+                // Kirim transaksi ke server
+                async _kirim() {
                     this.loading = true; this.showNameWarning = false;
+
+                    const nama = this._namaKirim();
+                    this.namaSukses = nama;
+
                     const payload = {
-                        nama_pembeli: this.namaPembeli.trim(),
+                        nama_pembeli: nama,
                         metode_bayar: this.metodeBayar,
+                        staf_id: (this.metodeBayar === 'hutang' && this.akun.admin) ? this.stafId : null,
                         items: Object.entries(this.cart).filter(([,i]) => i.qty > 0).map(([id,i]) => ({ product_id:id, jumlah:i.qty })),
                         _token: document.querySelector('meta[name="csrf-token"]').content
                     };
                     try {
                         const res = await fetch("{{ route('transaksi.store') }}", {
                             method: 'POST',
-                            headers: { 'Content-Type':'application/json', 'X-CSRF-TOKEN':payload._token },
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                                'X-CSRF-TOKEN': payload._token
+                            },
                             body: JSON.stringify(payload)
                         });
                         if (res.ok) {

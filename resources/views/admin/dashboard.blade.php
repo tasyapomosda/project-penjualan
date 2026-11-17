@@ -20,9 +20,9 @@
 
     @include('admin.partials.sidebar')
 
-    <main class="flex-1 ml-72 flex flex-col p-6 md:p-10 min-w-0 overflow-hidden">
+    <main id="mainContent" class="flex-1 ml-72 flex flex-col p-4 sm:p-6 md:p-10 min-w-0 overflow-hidden">
         
-        <header class="flex justify-between items-center mb-10 flex-shrink-0">
+        <header class="flex flex-col-reverse sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 md:mb-10 flex-shrink-0">
             <div class="glass-clock px-8 py-4 rounded-[2.5rem] shadow-sm flex items-center gap-5 border border-white transition-all hover:shadow-md">
                 <div class="bg-purple-100 text-purple-600 p-2.5 rounded-xl">
                     <i data-lucide="sparkles" class="w-5 h-5"></i>
@@ -81,8 +81,8 @@
                 <a href="{{ route('admin.harian') }}" class="bg-purple-50 text-purple-600 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-purple-600 hover:text-white transition-all">Semua →</a>
             </div>
 
-            <div class="overflow-y-auto flex-1 custom-scrollbar px-4">
-                <table class="w-full text-left border-collapse table-fixed">
+            <div class="overflow-y-auto overflow-x-auto flex-1 custom-scrollbar px-4">
+                <table class="w-full text-left border-collapse table-fixed min-w-[650px]">
                     <thead class="sticky top-0 bg-white z-10 shadow-[0_1px_0_0_rgba(0,0,0,0.02)]">
                         <tr class="text-slate-800 font-bold text-[13px] uppercase tracking-[0.2em]">
                             {{-- FIX: kolom waktu diperlebar untuk menampung tanggal + jam --}}

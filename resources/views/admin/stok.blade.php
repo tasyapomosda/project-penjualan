@@ -19,7 +19,7 @@
 
     @include('admin.partials.sidebar')
 
-    <main class="flex-1 ml-72 flex flex-col p-6 md:p-10 min-w-0 overflow-hidden">
+    <main id="mainContent" class="flex-1 ml-72 flex flex-col p-4 sm:p-6 md:p-10 min-w-0 overflow-hidden">
         
         @if($errors->any())
         <div class="bg-rose-50 border border-rose-200 text-rose-600 px-6 py-4 rounded-2xl mb-4 text-sm font-bold">
@@ -37,7 +37,7 @@
         </div>
         @endif
 
-        <header class="flex justify-between items-end mb-8 flex-shrink-0">
+        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8 flex-shrink-0">
             <div>
                 <h2 class="text-2xl font-extrabold text-slate-800 leading-tight tracking-tight">Manajemen Stok 📦</h2>
                 <p class="text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-1">Update & Pantau ketersediaan produk</p>
@@ -56,8 +56,8 @@
                 </div>
             </div>
 
-            <div class="overflow-y-auto flex-1 custom-scrollbar px-4">
-                <table class="w-full text-left border-collapse table-fixed">
+            <div class="overflow-y-auto overflow-x-auto flex-1 custom-scrollbar px-4">
+                <table class="w-full text-left border-collapse table-fixed min-w-[700px]">
                     <thead class="sticky top-0 bg-white z-10 shadow-[0_1px_0_0_rgba(15,23,42,0.06)]">
                         <tr class="text-slate-800  font-bold text-[12px] uppercase tracking-[0.2em]">
                             <th class="px-6 py-5 w-16 text-center">No</th>

@@ -23,9 +23,9 @@ class Debt extends Model
      * Relasi ke model Product
      * Ini yang bikin 'with('product')' di Controller bisa jalan
      */
+    
     public function product()
     {
-        // Debt 'belongsTo' Product (Hutang ini milik satu produk jajan)
         return $this->belongsTo(Product::class, 'product_id');
     }
 }

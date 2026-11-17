@@ -1,8 +1,13 @@
 {{--
-    PARTIAL: cart-panel.blade.php
-    Lokasi: resources/views/catalog/partials/cart-panel.blade.php
+    PARTIAL: panel-keranjang.blade.php
+    Lokasi: resources/views/katalog/partials/panel-keranjang.blade.php
     Di-include di sidebar desktop dan bottom drawer mobile
     $context = 'desktop' | 'mobile'
+
+    Catatan akses:
+    - Pengunjung biasa : Cash / QRIS
+    - Staf (login)     : Cash / QRIS / Kasbon (atas nama akunnya sendiri)
+    - Admin (login)    : Cash / QRIS / Kasbon (memilih staf dari dropdown)
 --}}
 @php
     $isDesktop  = ($context ?? 'desktop') === 'desktop';
@@ -57,15 +62,37 @@
         <div class="custom-dropdown" x-data="{ open: false }">
             <button type="button" @click="open = !open" @click.outside="open = false"
                 class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-xs text-white font-bold flex items-center justify-between cursor-pointer hover:border-slate-500 transition-all">
-                <span x-text="metodeBayar === 'qris' ? 'QRIS' : 'Cash'"></span>
+                <span x-text="metodeBayar === 'qris' ? 'QRIS' : metodeBayar === 'hutang' ? 'Kasbon' : 'Cash'"></span>
                 <svg :class="open ? 'rotate-180' : ''" class="transition-transform w-3.5 h-3.5 text-slate-400 flex-shrink-0"
                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div x-show="open" x-cloak class="custom-dropdown-menu">
-                    <div class="custom-dropdown-option" :class="metodeBayar === 'cash' ? 'selected' : ''" @click="metodeBayar = 'cash'; open = false"> Cash</div>
-                    <div class="custom-dropdown-option" :class="metodeBayar === 'qris' ? 'selected' : ''" @click="metodeBayar = 'qris'; open = false"> QRIS</div>
-                </div>
+            </button>
+            <div x-show="open" x-cloak class="custom-dropdown-menu">
+                <div class="custom-dropdown-option" :class="metodeBayar === 'cash' ? 'selected' : ''" @click="metodeBayar = 'cash'; open = false">Cash</div>
+                <div class="custom-dropdown-option" :class="metodeBayar === 'qris' ? 'selected' : ''" @click="metodeBayar = 'qris'; open = false">QRIS</div>
+                {{-- Kasbon hanya muncul untuk user yang login (staf / admin) --}}
+                <template x-if="akun.login">
+                    <div class="custom-dropdown-option" :class="metodeBayar === 'hutang' ? 'selected' : ''" @click="metodeBayar = 'hutang'; open = false">Kasbon</div>
+                </template>
+            </div>
         </div>
+
+        {{-- Admin: pilih staf (berlaku untuk semua metode bayar) --}}
+        <div x-show="akun.admin" x-cloak>
+            <label class="block text-[9px] font-bold uppercase tracking-widest text-slate-500 mb-1 ml-1">Atas nama staf</label>
+            <select x-model="stafId"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-xs text-white font-bold focus:outline-none focus:border-purple-500/50 transition-colors">
+                <option value="">— Nama bebas / tamu —</option>
+                <template x-for="s in stafList" :key="s.id">
+                    <option :value="s.id" x-text="s.name"></option>
+                </template>
+            </select>
+        </div>
+
+        {{-- Staf: info kasbon atas nama akunnya --}}
+        <p x-show="akun.staf && metodeBayar === 'hutang'" x-cloak
+           class="text-rose-400 text-[10px] font-bold text-center tracking-wide">
+            Kasbon dicatat atas nama <span x-text="akun.nama"></span>
+        </p>
 
         {{-- Warning nama --}}
         <p x-show="showNameWarning" x-cloak
@@ -141,17 +168,32 @@
                         <div class="custom-dropdown flex-1" x-data="{ open: false }">
                             <button type="button" @click="open = !open" @click.outside="open = false"
                                 class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-[10px] text-white font-bold flex items-center justify-between cursor-pointer hover:border-slate-500 transition-all">
-                                <span x-text="saved.metode === 'qris' ? 'QRIS' : 'Cash'"></span>
+                                <span x-text="saved.metode === 'qris' ? 'QRIS' : saved.metode === 'hutang' ? 'Kasbon' : 'Cash'"></span>
                                 <svg :class="open ? 'rotate-180' : ''" class="transition-transform w-3 h-3 text-slate-400"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-                                </button>
-                                <div x-show="open" x-cloak class="custom-dropdown-menu">
-                                    <div class="custom-dropdown-option" :class="saved.metode === 'cash' ? 'selected' : ''" @click="saved.metode = 'cash'; open = false; _persistSaved()"> Cash</div>
-                                    <div class="custom-dropdown-option" :class="saved.metode === 'qris' ? 'selected' : ''" @click="saved.metode = 'qris'; open = false; _persistSaved()"> QRIS</div>
-                                </div>
+                            </button>
+                            <div x-show="open" x-cloak class="custom-dropdown-menu">
+                                <div class="custom-dropdown-option" :class="saved.metode === 'cash' ? 'selected' : ''" @click="saved.metode = 'cash'; open = false; _persistSaved()">Cash</div>
+                                <div class="custom-dropdown-option" :class="saved.metode === 'qris' ? 'selected' : ''" @click="saved.metode = 'qris'; open = false; _persistSaved()">QRIS</div>
+                                <template x-if="akun.login">
+                                    <div class="custom-dropdown-option" :class="saved.metode === 'hutang' ? 'selected' : ''" @click="saved.metode = 'hutang'; open = false; _persistSaved()">Kasbon</div>
+                                </template>
+                            </div>
                         </div>
                         <span class="text-sm font-black text-white flex-shrink-0"
                               x-text="formatRupiah(saved.total)"></span>
+                    </div>
+
+                    {{-- Admin: pilih staf untuk draft (semua metode bayar) --}}
+                    <div class="mb-3" x-show="akun.admin" x-cloak>
+                        <label class="block text-[9px] font-bold uppercase tracking-widest text-slate-500 mb-1 ml-1">Atas nama staf</label>
+                        <select x-model="saved.stafId" @change="_persistSaved()"
+                                class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-[10px] text-white font-bold focus:outline-none transition-colors">
+                            <option value="">— Nama bebas / tamu —</option>
+                            <template x-for="s in stafList" :key="s.id">
+                                <option :value="s.id" :selected="String(s.id) === String(saved.stafId)" x-text="s.name"></option>
+                            </template>
+                        </select>
                     </div>
 
                     {{-- Tombol Edit / Bayar --}}

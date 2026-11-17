@@ -21,7 +21,10 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('admin');
+
+            // Staf diarahkan ke showcase, admin ke dashboard
+            $default = $request->user()->isAdmin() ? '/admin' : '/';
+            return redirect()->intended($default);
         }
 
         return back()->with('error', 'Email atau password salah!');
@@ -35,7 +38,13 @@ class AuthController extends Controller
     }
 
     public function editPassword() {
-        return view('auth.ganti-password');
+         /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // Admin tetap memakai halaman di dalam panel admin, staf memakai halaman sendiri
+        return $user->isAdmin()
+            ? view('auth.ganti-password')
+            : view('auth.ganti-password-staf');
     }
 
     public function updatePassword(Request $request) {
@@ -43,6 +52,7 @@ class AuthController extends Controller
             'current_password' => ['required'],
             'password' => ['required', 'confirmed', 'min:8'],
         ]);
+        /** @var \App\Models\User $user */ 
 
         $user = Auth::user();
 

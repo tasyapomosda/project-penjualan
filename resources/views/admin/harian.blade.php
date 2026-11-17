@@ -18,10 +18,10 @@
 
     @include('admin.partials.sidebar')
 
-    <main class="flex-1 ml-72 flex flex-col p-12 overflow-hidden relative">
+    <main id="mainContent" class="flex-1 ml-72 flex flex-col p-4 sm:p-6 md:p-12 overflow-hidden relative">
 
         {{-- ===== HEADER ===== --}}
-        <div class="flex justify-between items-start mb-6">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <div>
                 <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
                     Riwayat Transaksi 
@@ -40,7 +40,7 @@
         </div>
 
         {{-- ===== SUMMARY CARDS ===== --}}
-        <div class="grid grid-cols-3 gap-4 mb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
 
             {{-- Cash Masuk --}}
             <div class="bg-white p-4 rounded-[1.75rem] border border-slate-100 shadow-sm flex items-center gap-4 group hover:shadow-md transition-all">
@@ -84,8 +84,8 @@
 
         {{-- ===== TABEL TRANSAKSI ===== --}}
         <div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm flex-1 flex flex-col overflow-hidden">
-            <div class="overflow-y-auto flex-1 custom-scrollbar">
-                <table class="w-full text-left border-collapse table-fixed">
+            <div class="overflow-y-auto overflow-x-auto flex-1 custom-scrollbar">
+                <table class="w-full text-left border-collapse table-fixed min-w-[750px]">
                     <thead class="sticky top-0 bg-white/90 backdrop-blur-md z-10">
                         <tr class="text-slate-800 font-bold text-xs uppercase tracking-[0.15em] border-b border-slate-50">
                             <th class="px-10 py-4 w-32">Waktu</th>

@@ -16,6 +16,8 @@ class StokController extends Controller
     }
 
     // Tambah produk baru — route: admin.stok-store
+
+    
     public function store(Request $request)
     {
         $request->validate([
