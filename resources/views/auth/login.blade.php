@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Admin - Showcase Snack</title>
+    <title>Login Admin & Staf - Showcase Snack</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -38,8 +38,8 @@
                 <div class="inline-flex p-3 rounded-2xl bg-indigo-50 mb-4">
                     <i data-lucide="lock" class="text-indigo-500 w-6 h-6"></i>
                 </div>
-                <h1 class="text-2xl font-bold text-slate-800">Admin Showcase</h1>
-                <p class="text-slate-400 text-xs mt-1">Login ke Dasbor Admin</p>
+                <h1 class="text-2xl font-bold text-slate-800">Admin & Staf Showcase</h1>
+                <p class="text-slate-400 text-xs mt-1">Silakan masuk ke akun Anda</p>
             </div>
 
             <form action="{{ route('login') }}" method="POST" class="space-y-5">
